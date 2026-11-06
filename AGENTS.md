@@ -25,3 +25,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   no invented district multiplier. In-sample RMSE is reported as measured.
 - Market prices: curated reference dataset in `data/market-reference.json`
   (AMIS Punjab, 2–3 Nov 2026). Labelled REFERENCE, never "live".
+- Latency budget (see `lib/timeout.ts`): every upstream fetch is capped
+  at 8s; Gemini at most 2 attempts with 0.5s backoff. Worst-case ask is
+  ~25s — under Vercel's 60s serverless limit. A slow upstream degrades
+  to "unavailable", never stalls the answer.
