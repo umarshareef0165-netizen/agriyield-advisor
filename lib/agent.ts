@@ -11,6 +11,11 @@
  * composes the same answer from the same tool results with templates, and is
  * always labelled as a fallback in the UI and the API response.
  */
+import {
+  UPSTREAM_TIMEOUT_MS,
+  GEMINI_MAX_ATTEMPTS,
+  GEMINI_RETRY_DELAY_MS,
+} from "./timeout";
 import type { DayForecast, IrrigationAdvice } from "./weather";
 import type { MarketResult } from "./market";
 import type { YieldForecast } from "./yield";
@@ -18,11 +23,49 @@ import type { YieldForecast } from "./yield";
 export const GEMINI_MODEL = "gemini-3.8-flash";
 const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
-const MAX_ATTEMPTS = 3;
-const RETRY_DELAYS_MS = [1000, 2000];
-
+/**
+ * Gemini call budget (see lib/timeout.ts): each generate is capped at 8s
+ * and retried at most once on 503/429. Worst case for the agent phase is
+ * 8s + 0.5s + 8s = 16.5s — a hanging or overloaded Gemini degrades to the
+ * labelled deterministic fallback instead of stalling the answer past
+ * Vercel's 60s serverless limit.
+ */
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function callGeminiOnce(
+  prompt: string,
+  apiKey: string,
+  timeoutMs: number = UPSTREAM_TIMEOUT_MS,
+): Promise<string> {
+  const res = await fetch(GEMINI_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-goog-api-key": apiKey,
+    },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { maxOutputTokens: 700, temperature: 0.2 },
+    }),
+    signal: AbortSignal.timeout(timeoutMs),
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    const error = new Error(
+      `Gemini ${GEMINI_MODEL} returned HTTP ${res.status}: ${body.slice(0, 200)}`,
+    ) as Error & { status: number };
+    error.status = res.status;
+    throw error;
+  }
+  const data = (await res.json()) as GeminiResponse;
+  const text = data.candidates?.[0]?.content?.parts
+    ?.map((part) => part.text ?? "")
+    .join("")
+    .trim();
+  if (!text) throw new Error("Gemini returned an empty answer.");
+  return text;
 }
 
 export interface AnswerContext {
@@ -64,50 +107,30 @@ interface GeminiResponse {
   candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
 }
 
-async function callGeminiOnce(prompt: string, apiKey: string): Promise<string> {
-  const res = await fetch(GEMINI_ENDPOINT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-goog-api-key": apiKey,
-    },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { maxOutputTokens: 700, temperature: 0.2 },
-    }),
-    signal: AbortSignal.timeout(30000),
-  });
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    const error = new Error(
-      `Gemini ${GEMINI_MODEL} returned HTTP ${res.status}: ${body.slice(0, 200)}`,
-    ) as Error & { status: number };
-    error.status = res.status;
-    throw error;
-  }
-  const data = (await res.json()) as GeminiResponse;
-  const text = data.candidates?.[0]?.content?.parts
-    ?.map((part) => part.text ?? "")
-    .join("")
-    .trim();
-  if (!text) throw new Error("Gemini returned an empty answer.");
-  return text;
-}
-
+/**
+ * Gemini with a capped retry budget (see lib/timeout.ts): at most
+ * GEMINI_MAX_ATTEMPTS tries, 0.5s backoff between them. A timeout abort
+ * (DOMException "TimeoutError") is retryable once — the server may just
+ * be slow — but the total is still bounded at 16.5s.
+ */
 export async function answerWithGemini(
   prompt: string,
   apiKey: string,
+  opts?: { timeoutMs?: number; maxAttempts?: number },
 ): Promise<string> {
+  const timeoutMs = opts?.timeoutMs ?? UPSTREAM_TIMEOUT_MS;
+  const maxAttempts = opts?.maxAttempts ?? GEMINI_MAX_ATTEMPTS;
   let lastError: unknown = null;
-  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
-      return await callGeminiOnce(prompt, apiKey);
+      return await callGeminiOnce(prompt, apiKey, timeoutMs);
     } catch (error) {
       lastError = error;
       const status = (error as { status?: number }).status;
-      const retryable = status === 503 || status === 429;
-      if (!retryable || attempt === MAX_ATTEMPTS) break;
-      await sleep(RETRY_DELAYS_MS[attempt - 1] ?? 2000);
+      const timedOut = (error as Error).name === "TimeoutError";
+      const retryable = status === 503 || status === 429 || timedOut;
+      if (!retryable || attempt === maxAttempts) break;
+      await sleep(GEMINI_RETRY_DELAY_MS);
     }
   }
   throw lastError;

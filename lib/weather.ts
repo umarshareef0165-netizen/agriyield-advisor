@@ -1,3 +1,5 @@
+import { UPSTREAM_TIMEOUT_MS } from "./timeout";
+
 /**
  * Live weather via Open-Meteo (free, no key).
  * https://open-meteo.com/en/docs — daily forecast, Asia/Karachi timezone.
@@ -100,15 +102,21 @@ export function parseForecast(json: unknown, lat: number, lon: number): Forecast
   };
 }
 
+/**
+ * Fetch the 7-day forecast. The fetch is capped at `timeoutMs` (default
+ * 8s — see lib/timeout.ts): a slow Open-Meteo degrades to "weather
+ * unavailable" instead of stalling the whole answer.
+ */
 export async function fetchForecast(
   lat: number,
   lon: number,
   fetchFn: typeof fetch = fetch,
+  timeoutMs: number = UPSTREAM_TIMEOUT_MS,
 ): Promise<ForecastResult> {
   let res: Response;
   try {
     res = await fetchFn(buildForecastUrl(lat, lon), {
-      signal: AbortSignal.timeout(15000),
+      signal: AbortSignal.timeout(timeoutMs),
       headers: { Accept: "application/json" },
     });
   } catch (error) {

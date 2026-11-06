@@ -150,4 +150,25 @@ describe("fetchSoil fan-out", () => {
       fetchSoil(31.42, 73.08, fetchMock as typeof fetch),
     ).rejects.toThrow();
   });
+
+  it("degrades fast when SoilGrids hangs instead of stalling the answer", async () => {
+    const { fetchSoil } = await import("./soil");
+    // A fetch that never resolves unless its abort signal fires.
+    const hangingFetch = (_url: string, opts?: { signal?: AbortSignal }) =>
+      new Promise<never>((_resolve, reject) => {
+        const signal = opts?.signal;
+        if (!signal) return; // never resolves
+        if (signal.aborted) reject(signal.reason);
+        else
+          signal.addEventListener("abort", () => reject(signal.reason), {
+            once: true,
+          });
+      });
+    const start = Date.now();
+    await expect(
+      fetchSoil(31.42, 73.08, hangingFetch as typeof fetch, 50),
+    ).rejects.toThrow();
+    // All 8 property fetches hang in parallel and abort together.
+    expect(Date.now() - start).toBeLessThan(2000);
+  });
 });

@@ -1,3 +1,5 @@
+import { UPSTREAM_TIMEOUT_MS } from "./timeout";
+
 /**
  * Soil data via ISRIC SoilGrids v2.0 (free, no key, CC-BY).
  * https://rest.isric.org/soilgrids/v2.0/docs
@@ -120,11 +122,16 @@ export function parseSoil(json: unknown, lat: number, lon: number): SoilResult {
  * while single-property / single-depth queries return 200. Individual
  * failures are tolerated — a property that fails is simply not reported.
  * If every request fails, the whole call throws.
+ *
+ * Each property fetch is capped at `timeoutMs` (default 8s — see
+ * lib/timeout.ts): the 8 requests run in parallel, so the whole call
+ * degrades in ~8s even when the service is hanging.
  */
 export async function fetchSoil(
   lat: number,
   lon: number,
   fetchFn: typeof fetch = fetch,
+  timeoutMs: number = UPSTREAM_TIMEOUT_MS,
 ): Promise<SoilResult> {
   const results = await Promise.allSettled(
     SOIL_PROPERTIES.map(async (prop) => {
@@ -136,7 +143,7 @@ export async function fetchSoil(
         value: "mean",
       });
       const res = await fetchFn(`${SOILGRIDS_URL}?${params.toString()}`, {
-        signal: AbortSignal.timeout(20000),
+        signal: AbortSignal.timeout(timeoutMs),
         headers: { Accept: "application/json" },
       });
       if (!res.ok) {

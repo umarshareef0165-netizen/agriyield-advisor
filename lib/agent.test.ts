@@ -130,11 +130,35 @@ describe("answerWithGemini retry", () => {
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
-  it("throws after 3 failed attempts", async () => {
+  it("throws after 2 failed attempts (retry budget is capped)", async () => {
     const fail = new Response("high demand", { status: 503 });
     const fetchMock = vi.fn().mockResolvedValue(fail);
     vi.stubGlobal("fetch", fetchMock);
     await expect(answerWithGemini("prompt", "fake-key")).rejects.toThrow("503");
-    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("gives up fast when Gemini hangs instead of stalling the answer", async () => {
+    // A fetch that never resolves unless its abort signal fires.
+    const fetchMock = vi.fn(
+      (_url: string, opts?: { signal?: AbortSignal }) =>
+        new Promise<never>((_resolve, reject) => {
+          const signal = opts?.signal;
+          if (!signal) return; // never resolves
+          if (signal.aborted) reject(signal.reason);
+          else
+            signal.addEventListener("abort", () => reject(signal.reason), {
+              once: true,
+            });
+        }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    const start = Date.now();
+    await expect(
+      answerWithGemini("prompt", "fake-key", { timeoutMs: 50, maxAttempts: 2 }),
+    ).rejects.toThrow("aborted due to timeout");
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    // 2 attempts x 50ms + 500ms backoff — must stay well under 2s.
+    expect(Date.now() - start).toBeLessThan(2000);
   });
 });

@@ -64,6 +64,29 @@ describe("parseForecast", () => {
   });
 });
 
+describe("fetchForecast timeout", () => {
+  /** A fetch that never resolves unless its abort signal fires. */
+  const hangingFetch = (_url: string, opts?: { signal?: AbortSignal }) =>
+    new Promise<never>((_resolve, reject) => {
+      const signal = opts?.signal;
+      if (!signal) return; // never resolves
+      if (signal.aborted) reject(signal.reason);
+      else
+        signal.addEventListener("abort", () => reject(signal.reason), {
+          once: true,
+        });
+    });
+
+  it("degrades fast when Open-Meteo hangs instead of stalling the answer", async () => {
+    const { fetchForecast } = await import("./weather");
+    const start = Date.now();
+    await expect(
+      fetchForecast(31.42, 73.08, hangingFetch as typeof fetch, 50),
+    ).rejects.toThrow("Open-Meteo");
+    expect(Date.now() - start).toBeLessThan(2000);
+  });
+});
+
 describe("irrigationAdvice", () => {
   const days: DayForecast[] = parseForecast(FIXTURE, 31.42, 73.08).days;
 
