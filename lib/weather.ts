@@ -148,8 +148,75 @@ export interface IrrigationAdvice {
   rainNext48hMm: number;
   rainDaysNext3: string[];
   hottestDay: { date: string; tMaxC: number } | null;
+  /** ET0-based water need for the forecast window (see waterNeed). */
+  water: WaterNeed;
   reasonEn: string;
   reasonUr: string;
+}
+
+/**
+ * Irrigation water need, derived ONLY from the forecast's own numbers.
+ *
+ * Method: over the forecast window, crop water demand is approximated by
+ * the FAO reference evapotranspiration (ET0, mm/day, already fetched from
+ * Open-Meteo) and rain supplies part of it. Net need = max(0, sum(ET0) −
+ * sum(rain)) in mm. Unit conversions are exact, not estimates: 1 mm over
+ * 1 hectare = 10,000 litres; 1 mm over 1 acre = 4,046.86 litres
+ * (1 acre = 4,046.86 m² × 0.001 m). This is the REFERENCE (ET0) demand —
+ * a real crop's need is ET0 × a crop coefficient, which varies by growth
+ * stage and is NOT applied here because no stage-specific coefficient is
+ * sourced in this app; the UI labels the figure as reference demand.
+ * If any ET0 or rain value is missing, the result is incomplete (nulls),
+ * never a guess.
+ */
+export interface WaterNeed {
+  /** Number of forecast days summed. */
+  days: number;
+  et0SumMm: number | null;
+  rainSumMm: number | null;
+  /** Net irrigation need in mm (0 when rain covers ET0). Null when incomplete. */
+  netMm: number | null;
+  litresPerAcre: number | null;
+  litresPerHectare: number | null;
+  complete: boolean;
+  method: string;
+}
+
+const WATER_METHOD =
+  "Net need = max(0, sum(ET0) − sum(rain)) over the forecast window; 1 mm = 10,000 L/ha = 4,046.86 L/acre. Reference (ET0) demand only — no crop coefficient applied.";
+
+export function waterNeed(days: DayForecast[]): WaterNeed {
+  const window = days.slice(0, 7);
+  const complete = window.every((d) => d.et0Mm !== null && d.precipMm !== null);
+  if (!complete || window.length === 0) {
+    return {
+      days: window.length,
+      et0SumMm: null,
+      rainSumMm: null,
+      netMm: null,
+      litresPerAcre: null,
+      litresPerHectare: null,
+      complete: false,
+      method: WATER_METHOD,
+    };
+  }
+  const et0SumMm = round1(window.reduce((s, d) => s + (d.et0Mm ?? 0), 0));
+  const rainSumMm = round1(window.reduce((s, d) => s + (d.precipMm ?? 0), 0));
+  const netMm = round1(Math.max(0, et0SumMm - rainSumMm));
+  return {
+    days: window.length,
+    et0SumMm,
+    rainSumMm,
+    netMm,
+    litresPerAcre: Math.round(netMm * 4046.86),
+    litresPerHectare: Math.round(netMm * 10000),
+    complete: true,
+    method: WATER_METHOD,
+  };
+}
+
+function round1(v: number): number {
+  return Math.round(v * 10) / 10;
 }
 
 /**
@@ -186,6 +253,7 @@ export function irrigationAdvice(days: DayForecast[]): IrrigationAdvice {
       rainNext48hMm,
       rainDaysNext3,
       hottestDay,
+      water: waterNeed(days),
       reasonEn:
         "Some forecast values are missing, so no firm irrigation call can be made — check again when the forecast is complete.",
       reasonUr:
@@ -200,6 +268,7 @@ export function irrigationAdvice(days: DayForecast[]): IrrigationAdvice {
       rainNext48hMm,
       rainDaysNext3,
       hottestDay,
+      water: waterNeed(days),
       reasonEn: `Rain is expected on ${rainDaysNext3.join(", ")} (${rainNext48hMm.toFixed(1)} mm in the next 48 hours) — hold off irrigation and let the rain work.`,
       reasonUr: `اگلے 48 گھنٹوں میں ${rainNext48hMm.toFixed(1)} ملی میٹر بارش متوقع ہے (${rainDaysNext3.join("، ")}) — پانی روک لیں، بارش اپنا کام کرے گی۔`,
     };
@@ -215,6 +284,7 @@ export function irrigationAdvice(days: DayForecast[]): IrrigationAdvice {
     rainNext48hMm,
     rainDaysNext3,
     hottestDay,
+    water: waterNeed(days),
     reasonEn: `No rain expected in the next 3 days (0.0 mm forecast) — irrigate on ${best.date} in the early morning, when it is coolest (max ${best.tMaxC}°C that day).`,
     reasonUr: `اگلے 3 دن بارش متوقع نہیں ہے (0.0 ملی میٹر) — ${best.date} کو صبح سویرے پانی دیں، جب موسم سب سے ٹھنڈا ہوگا (اس دن زیادہ سے زیادہ ${best.tMaxC}°C)۔`,
   };

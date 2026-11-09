@@ -26,6 +26,7 @@ import {
 } from "./soil";
 import { getMarket, type MarketCrop, type MarketResult } from "./market";
 import { forecastYield, YIELD_CROPS, type YieldForecast } from "./yield";
+import { estimateRevenue, type RevenueEstimate } from "./revenue";
 import {
   answerQuestion,
   type AgentAnswer,
@@ -55,6 +56,8 @@ export interface AskResult {
   answer: AgentAnswer;
   citations: Citation[];
   plan: PlanStep[];
+  /** Gross revenue/ha estimate (yield × dated reference price), when computable. */
+  revenue: RevenueEstimate | null;
   tools: {
     weather: ToolStatus & { days?: DayForecast[] };
     soil: ToolStatus & { data?: SoilResult };
@@ -172,6 +175,9 @@ export async function askQuestion(input: AskInput): Promise<AskResult> {
     sowingDate: input.sowingDate,
   });
 
+  const revenue =
+    yieldForecast && market ? estimateRevenue(yieldForecast, market) : null;
+
   const ctx: AnswerContext = {
     question,
     language: detected.language,
@@ -185,6 +191,7 @@ export async function askQuestion(input: AskInput): Promise<AskResult> {
     market,
     yieldForecast,
     yieldUnavailableReason: yieldError,
+    revenue,
     planSteps: plan,
   };
   const answer = await answerQuestion(ctx);
@@ -228,6 +235,25 @@ export async function askQuestion(input: AskInput): Promise<AskResult> {
       detail: `${yieldForecast.forecast} t/ha (range ${yieldForecast.bandLow}–${yieldForecast.bandHigh}), in-sample RMSE ${yieldForecast.rmse} t/ha`,
       source: yieldForecast.source,
     });
+    citations.push({
+      label: `Backtest (held-out ${yieldForecast.backtest.holdoutYears.join("–")})`,
+      detail: `Trend MAE ${yieldForecast.backtest.trendMae} t/ha vs naive ${yieldForecast.backtest.naiveMae} t/ha and 5-year average ${yieldForecast.backtest.avg5Mae} t/ha`,
+      source: "FAO/OWID Pakistan series (out-of-sample)",
+    });
+  }
+  if (revenue) {
+    citations.push({
+      label: `Gross revenue estimate (before costs)`,
+      detail: `Rs. ${revenue.grossPerHa.toLocaleString()} per hectare (range Rs. ${revenue.bandLowPerHa.toLocaleString()}–${revenue.bandHighPerHa.toLocaleString()}) at the ${revenue.priceUsed} reference price of Rs. ${revenue.pricePer40kg.toLocaleString()} per 40 kg`,
+      source: `${revenue.source}, published ${revenue.published}`,
+    });
+  }
+  if (weatherOk && advice?.water.complete && advice.water.netMm !== null) {
+    citations.push({
+      label: "Irrigation water need (next 7 days)",
+      detail: `Net ${advice.water.netMm} mm after rain (ET0 ${advice.water.et0SumMm} mm, rain ${advice.water.rainSumMm} mm) — about ${advice.water.litresPerAcre?.toLocaleString()} litres per acre`,
+      source: "Open-Meteo ET0 + rain (computed)",
+    });
   }
 
   return {
@@ -241,6 +267,7 @@ export async function askQuestion(input: AskInput): Promise<AskResult> {
     answer,
     citations,
     plan,
+    revenue,
     tools: {
       weather: { status: weatherOk ? "ok" : "unavailable", error: weatherError, days },
       soil: { status: soilOk ? "ok" : "unavailable", error: soilError, data: soilData },

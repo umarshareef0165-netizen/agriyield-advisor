@@ -20,6 +20,7 @@
  * prediction. Crops without a series (cotton, sugarcane) have no forecast.
  */
 import seriesData from "../data/yield-series.json";
+import { backtestCrop, type BacktestResult } from "./backtest";
 
 export type YieldCrop = "wheat" | "rice" | "maize";
 
@@ -56,6 +57,8 @@ export interface YieldForecast {
   avg10: number;
   trendPerYear: number;
   seriesLast10: YieldPoint[];
+  /** Out-of-sample check: what the same trend would have scored on 2020–2024. */
+  backtest: BacktestResult;
   source: string;
 }
 
@@ -147,6 +150,7 @@ export function forecastYield(crop: YieldCrop): YieldForecast {
     avg10: round2(average(series, 10)),
     trendPerYear: round4(fit.slope),
     seriesLast10: series.slice(-10),
+    backtest: backtestCrop(crop),
     source: getSeriesSource(),
   };
 }

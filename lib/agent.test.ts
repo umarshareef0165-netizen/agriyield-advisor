@@ -34,6 +34,16 @@ const CTX: AnswerContext = {
       rainNext48hMm: 0,
       rainDaysNext3: [],
       hottestDay: { date: "2026-11-07", tMaxC: 28.5 },
+      water: {
+        days: 1,
+        et0SumMm: 3.1,
+        rainSumMm: 0,
+        netMm: 3.1,
+        litresPerAcre: 12545,
+        litresPerHectare: 31000,
+        complete: true,
+        method: "Net need = max(0, sum(ET0) − sum(rain)).",
+      },
       reasonEn: "No rain expected — irrigate on 2026-11-07 in the early morning.",
       reasonUr: "بارش متوقع نہیں — 2026-11-07 کو صبح سویرے پانی دیں۔",
     },
@@ -57,7 +67,30 @@ const CTX: AnswerContext = {
     avg10: 2.93,
     trendPerYear: 0.037,
     seriesLast10: [],
+    backtest: {
+      crop: "wheat",
+      holdoutYears: [2020, 2021, 2022, 2023, 2024],
+      fitThroughYear: 2019,
+      predictions: [],
+      trendMae: 0.11,
+      trendRmse: 0.13,
+      naiveMae: 0.25,
+      avg5Mae: 0.22,
+      method: "Trend fitted excluding the last 5 seasons.",
+    },
     source: "Our World in Data (FAO)",
+  },
+  revenue: {
+    crop: "wheat",
+    priceUsed: "district",
+    pricePer40kg: 5150,
+    pricePerTonne: 128750,
+    grossPerHa: 424875,
+    bandLowPerHa: 399125,
+    bandHighPerHa: 450625,
+    published: "2026-11-02",
+    source: "AMIS Punjab",
+    method: "Gross revenue/ha = forecast yield × reference price per tonne.",
   },
   planSteps: [
     {
@@ -78,6 +111,10 @@ describe("deterministicAnswer", () => {
     expect(text).toContain("3.3");
     expect(text).toContain("3.1");
     expect(text).toContain("3.5");
+    // Water need and gross revenue (before costs) are part of the answer.
+    expect(text).toContain("3.1 mm");
+    expect(text).toContain("424,875");
+    expect(text).toContain("kharchon se PEHLE");
   });
 
   it("says plainly when weather is unavailable instead of inventing it", () => {
@@ -94,6 +131,8 @@ describe("deterministicAnswer", () => {
     const text = deterministicAnswer({ ...CTX, language: "en" });
     expect(text).toContain("District: Faisalabad");
     expect(text).toContain("3.3 t/ha");
+    expect(text).toContain("Backtest on held-out 2020–2024");
+    expect(text).toContain("BEFORE costs");
   });
 });
 
