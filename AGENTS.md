@@ -23,6 +23,18 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Yield model: linear trend fitted on the real FAO/OWID Pakistan yield series
   (1961–2024) shipped in `data/yield-series.json`. National average only —
   no invented district multiplier. In-sample RMSE is reported as measured.
+  Backtest (`lib/backtest.ts`): the same trend fitted excluding 2020–2024,
+  scored against the real held-out yields, with naive and 5-year-average
+  baselines shown alongside — including where the trend loses (rice vs the
+  5-year average). Never hide a losing baseline.
+- Irrigation water need (`lib/weather.ts` `waterNeed`): net need =
+  max(0, ΣET0 − Σrain) over the forecast window; 1 mm = 10,000 L/ha =
+  4,046.86 L/acre. Reference (ET0) demand only — no crop coefficient is
+  applied, and the UI must say so.
+- Revenue estimate (`lib/revenue.ts`): gross revenue/ha = forecast yield ×
+  dated reference price (per 40 kg × 25 = per tonne). Gross BEFORE costs,
+  never profit. Rice has no single reference price (three varieties) — no
+  estimate for rice, never a picked variety.
 - Market prices: curated reference dataset in `data/market-reference.json`
   (AMIS Punjab, 2–3 Nov 2026). Labelled REFERENCE, never "live".
 - Latency budget (see `lib/timeout.ts`): every upstream fetch is capped

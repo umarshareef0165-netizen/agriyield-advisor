@@ -10,7 +10,8 @@ sowing/irrigation plan.
 Built by **Umar Shareef** (BSCS Final Year, University of Agriculture
 Faisalabad, Pakistan). Registration is done (solo, Devpost); the Round 1
 proposal PPT ("AgriYield Advisor") is already submitted. Project submission
-deadline: **Nov 13, 2026, 11:59 PM PST**.
+deadline: **Mon Nov 10, 2026, 2:00 PM PT** (Round 1 close — verified
+2026-11-08; the Nov 13 date appears NOWHERE official).
 
 ## What it does
 
@@ -34,6 +35,30 @@ deadline: **Nov 13, 2026, 11:59 PM PST**.
   series (2000–2024) for wheat, rice, and maize. Forecast with a ±1 SD band;
   in-sample RMSE reported as measured (wheat 2025: 3.12 t/ha, band
   3.02–3.22, RMSE 0.098). National average only — no district multiplier.
+  **Backtest (new):** the same trend, fitted excluding 2020–2024, scored
+  against the real held-out yields — wheat MAE 0.090 t/ha (naive 0.228,
+  5-year average 0.207), rice MAE 0.168 (naive 0.182, 5-year average 0.121 —
+  the trend does NOT beat the 5-year average for rice, reported as
+  measured), maize MAE 0.412 (naive 0.491, 5-year average 1.250). Shown in
+  the UI and in `/api/yield` — see `lib/backtest.ts`.
+- **Irrigation water need (new)** — from the forecast's own numbers: net
+  need = max(0, ΣET0 − Σrain) over the 7-day window, in mm, litres per acre
+  (1 mm = 4,046.86 L/acre) and per hectare. ET0 is now shown as a column in
+  the weather table. Reference (ET0) demand only — no crop coefficient is
+  applied, and the UI says so. See `lib/weather.ts` (`waterNeed`).
+- **Gross revenue estimate (new)** — forecast yield × dated reference price
+  (price per 40 kg × 25 = per tonne), per hectare with the yield band
+  applied. Gross, BEFORE costs — never presented as profit. Wheat in
+  Faisalabad: ≈ Rs. 401,700/ha (range 388,825–414,575). Rice has no single
+  reference price (three varieties), so no estimate is given for it. See
+  `lib/revenue.ts`.
+- **Crop comparison (new)** — `/api/compare?district=…` and a homepage panel:
+  wheat, rice and maize side by side (forecast, band, backtest MAE,
+  reference price, gross revenue/ha) for the sowing decision.
+- **Voice input (new)** — a microphone button (Web Speech API, `ur-PK` when
+  the UI is Urdu, `en-US` in English) so farmers who cannot type can ask by
+  speaking. Shown only where the browser supports it; permission denial is
+  reported, typing still works.
 - **Agent layer** — Gemini-primary (`gemini-3.8-flash`, `x-goog-api-key`
   header, retry with backoff on 503/429, same pattern as PayPerPrompt). The
   prompt is grounded strictly on the tool results: cite every figure, say
@@ -44,6 +69,8 @@ deadline: **Nov 13, 2026, 11:59 PM PST**.
   standard Punjab crop calendar + the live forecast + the farmer's sowing
   date. Never shows a past-dated step.
 - **Urdu-first UI** with an English toggle; every answer carries citations.
+  A **Method & limits** section on the homepage states every source, the
+  model method, the backtest, and the limits in plain language.
 
 ## Data: what is live, reference, or baseline
 
@@ -64,7 +91,7 @@ testimonial is claimed anywhere.
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm test           # vitest, 46 tests
+npm test           # vitest, 63 tests
 npm run build      # must pass with zero errors
 npm start          # production server
 ```
@@ -104,3 +131,7 @@ same: tool-calling, read-only, cited answers, deterministic fallback.
 - Yield forecasts are national averages; district yields differ.
 - The yield model covers wheat, rice, and maize only (FAO/OWID series).
   Cotton and sugarcane have no forecast — the app says so.
+- Backtest honesty note: the trend beats both simple baselines for wheat
+  and maize on 2020–2024, but for rice the 5-year average (MAE 0.121)
+  beats the trend (MAE 0.168). All three numbers are shown; no baseline is
+  hidden.
