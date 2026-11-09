@@ -1,9 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DISTRICTS } from "@/lib/districts";
+import { waterNeed } from "@/lib/weather";
 import type { AskResult } from "@/lib/orchestrate";
 import type { CropKey } from "@/lib/intent";
+import type { CropComparison } from "@/lib/compare";
+
+type SpeechRecognitionCtor = new () => {
+  lang: string;
+  interimResults: boolean;
+  onresult: ((e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
+  onerror: ((e: { error: string }) => void) | null;
+  onend: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+};
+
+function speechRecognitionCtor(): SpeechRecognitionCtor | null {
+  if (typeof window === "undefined") return null;
+  const w = window as unknown as Record<string, unknown>;
+  const ctor = (w.SpeechRecognition ?? w.webkitSpeechRecognition) as
+    | SpeechRecognitionCtor
+    | undefined;
+  return ctor ?? null;
+}
 
 type Lang = "ur" | "en";
 
@@ -64,6 +85,17 @@ const STR: Record<
     rainChance: "امکان",
     humidity: "نمی",
     wind: "ہوا",
+    et0: "ET0",
+    waterNeed: "پانی کی ضرورت — اگلے 7 دن",
+    revenue: "مجموعی آمدنی کا اندازہ (اخراجات سے پہلے)",
+    compare: "فصلوں کا موازنہ",
+    compareBtn: "تینوں فصلوں کا موازنہ دیکھیں",
+    comparing: "موازنہ تیار ہو رہا ہے…",
+    backtest: "بیک ٹیسٹ",
+    methodsTitle: "طریقہ اور حدود — ہر نمبر کا ماخذ",
+    mic: "بول کر پوچھیں",
+    listening: "سن رہا ہوں… بولیں",
+    micUnsupported: "اس براؤزر میں بول کر پوچھنا دستیاب نہیں — لکھ کر پوچھیں۔",
     property: "خاصیت",
     value: "قدر",
     aboutTitle: "اس ایپ کے بارے میں",
@@ -104,6 +136,17 @@ const STR: Record<
     rainChance: "Chance",
     humidity: "Humidity",
     wind: "Wind",
+    et0: "ET0",
+    waterNeed: "Irrigation water need — next 7 days",
+    revenue: "Gross revenue estimate (before costs)",
+    compare: "Compare crops",
+    compareBtn: "Compare all three crops",
+    comparing: "Preparing the comparison…",
+    backtest: "Backtest",
+    methodsTitle: "Method & limits — where every number comes from",
+    mic: "Ask by voice",
+    listening: "Listening… speak now",
+    micUnsupported: "Voice input is not available in this browser — please type instead.",
     property: "Property",
     value: "Value",
     aboutTitle: "About this app",
@@ -123,6 +166,65 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AskResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [compare, setCompare] = useState<CropComparison | null>(null);
+  const [compareLoading, setCompareLoading] = useState(false);
+  const [micSupported, setMicSupported] = useState(false);
+  const [listening, setListening] = useState(false);
+  const [micError, setMicError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Mount-only feature detection: SpeechRecognition exists only in the
+    // browser, so support cannot be known at SSR time. One setState, once.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMicSupported(speechRecognitionCtor() !== null);
+  }, []);
+
+  function listen() {
+    const Ctor = speechRecognitionCtor();
+    if (!Ctor) {
+      setMicError(t.micUnsupported);
+      return;
+    }
+    setMicError(null);
+    const rec = new Ctor();
+    rec.lang = lang === "ur" ? "ur-PK" : "en-US";
+    rec.interimResults = false;
+    rec.onresult = (e) => {
+      const text = Array.from(e.results)
+        .map((r) => r[0]?.transcript ?? "")
+        .join(" ")
+        .trim();
+      if (text) setQuestion(text);
+    };
+    rec.onerror = (e) => {
+      setListening(false);
+      if (e.error === "not-allowed") {
+        setMicError(
+          lang === "ur"
+            ? "مائیک کی اجازت نہیں ملی — براؤزر کی سیٹنگ سے اجازت دیں یا لکھ کر پوچھیں۔"
+            : "Microphone permission was denied — allow it in browser settings or type instead.",
+        );
+      }
+    };
+    rec.onend = () => setListening(false);
+    setListening(true);
+    rec.start();
+  }
+
+  async function loadCompare() {
+    setCompareLoading(true);
+    setCompare(null);
+    try {
+      const res = await fetch(`/api/compare?district=${district}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? t.failed);
+      setCompare(data as CropComparison);
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setCompareLoading(false);
+    }
+  }
 
   const t = STR[lang];
   const examples = lang === "ur" ? EXAMPLES_UR : EXAMPLES_EN;
@@ -155,6 +257,7 @@ export default function Home() {
   }
 
   const w = result?.tools.weather;
+  const water = w?.days ? waterNeed(w.days) : null;
   const s = result?.tools.soil;
   const m = result?.tools.market.data;
   const y = result?.tools.yield.data;
@@ -230,6 +333,11 @@ export default function Home() {
             onChange={(e) => setQuestion(e.target.value)}
           />
           <div className="chips">
+            {micSupported && (
+              <button type="button" onClick={listen} disabled={listening}>
+                🎙️ {listening ? t.listening : t.mic}
+              </button>
+            )}
             <span className="muted">{t.examples}</span>
             {examples.map((ex) => (
               <button
@@ -247,7 +355,57 @@ export default function Home() {
           <button className="ask" disabled={loading} onClick={() => ask()}>
             {loading ? t.asking : t.ask}
           </button>
+          {micError && <p className="error">{micError}</p>}
           {error && <p className="error">{error}</p>}
+        </section>
+
+        <section className="card">
+          <h2>{t.compare}</h2>
+          <p className="muted">
+            {lang === "ur"
+              ? "گندم، چاول اور مکئی — پیداوار کا اندازہ، بیک ٹیسٹ اور مجموعی آمدنی ایک ساتھ۔ بوائی کا فیصلہ کرنے سے پہلے موازنہ کریں۔"
+              : "Wheat, rice and maize — yield forecast, backtest and gross revenue side by side. Compare before deciding what to sow."}
+          </p>
+          <button
+            className="ask"
+            disabled={compareLoading}
+            onClick={loadCompare}
+          >
+            {compareLoading ? t.comparing : t.compareBtn}
+          </button>
+          {compare && (
+            <table className="data">
+              <thead>
+                <tr>
+                  <th>{t.crop}</th>
+                  <th>
+                    {compare.rows[0]?.targetYear} — t/ha
+                  </th>
+                  <th>{t.backtest} MAE</th>
+                  <th>{t.revenue} /ha</th>
+                </tr>
+              </thead>
+              <tbody>
+                {compare.rows.map((r) => (
+                  <tr key={r.crop}>
+                    <td>{lang === "ur" ? r.nameUr : r.nameEn}</td>
+                    <td>
+                      {r.forecast} ({r.bandLow}–{r.bandHigh})
+                    </td>
+                    <td>{r.backtestMae} t/ha</td>
+                    <td>
+                      {r.revenue
+                        ? `Rs. ${r.revenue.grossPerHa.toLocaleString()}`
+                        : lang === "ur"
+                          ? "کوئی واحد قیمت نہیں — تین اقسام"
+                          : "No single price — three varieties"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+          {compare && <p className="muted">{compare.note}</p>}
         </section>
 
         {result && (
@@ -322,6 +480,9 @@ export default function Home() {
                       <th>
                         {t.wind} km/h
                       </th>
+                      <th>
+                        {t.et0} (mm)
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -334,10 +495,29 @@ export default function Home() {
                         <td>{d.precipProbPct ?? "—"}</td>
                         <td>{d.humidityPct ?? "—"}</td>
                         <td>{d.windKmh ?? "—"}</td>
+                        <td>{d.et0Mm ?? "—"}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
+              )}
+              {water && water.complete && water.netMm !== null ? (
+                <div className="ref-box">
+                  <strong>{t.waterNeed}:</strong>{" "}
+                  {lang === "ur"
+                    ? `خالص ${water.netMm} ملی میٹر (ET0 ‏${water.et0SumMm} ملی میٹر منفی بارش ${water.rainSumMm} ملی میٹر) — تقریباً ${water.litresPerAcre?.toLocaleString()} لیٹر فی ایکڑ (${water.litresPerHectare?.toLocaleString()} لیٹر فی ہیکٹر)۔ حوالہ (ET0) ضرورت — فصل کا گتانک لاگو نہیں۔`
+                    : `Net ${water.netMm} mm (ET0 ${water.et0SumMm} mm minus rain ${water.rainSumMm} mm) — about ${water.litresPerAcre?.toLocaleString()} litres per acre (${water.litresPerHectare?.toLocaleString()} litres per hectare). Reference (ET0) demand — no crop coefficient applied.`}
+                  <br />
+                  <span className="muted">{water.method}</span>
+                </div>
+              ) : (
+                water && (
+                  <div className="warn-box">
+                    {lang === "ur"
+                      ? "پانی کی ضرورت نہیں نکالی جا سکی — پیش گوئی میں ET0 یا بارش کی قدریں نامکمل ہیں۔"
+                      : "Water need could not be computed — ET0 or rain values are missing from the forecast."}
+                  </div>
+                )
               )}
               <p className="muted">Open-Meteo — {result.district.nameEn}</p>
             </section>
@@ -478,6 +658,29 @@ export default function Home() {
                       ? `طریقہ: ${y.method} نمونہ میں RMSE ${y.rmse} ٹن/ہیکٹر۔ آخری درج ${y.lastValue} ٹن/ہیکٹر (${y.lastYear})؛ 5 سال کی اوسط ${y.avg5} ٹن/ہیکٹر؛ 10 سال کی اوسط ${y.avg10} ٹن/ہیکٹر۔ یہ قومی اوسط ہے — ضلعی پیداوار مختلف ہو سکتی ہے۔`
                       : `Method: ${y.method} In-sample RMSE ${y.rmse} t/ha. Last observed ${y.lastValue} t/ha (${y.lastYear}); 5-year average ${y.avg5} t/ha; 10-year average ${y.avg10} t/ha. National average — district yields will differ.`}
                   </p>
+                  <p>
+                    <strong>{t.backtest} ({y.backtest.holdoutYears[0]}–
+                    {y.backtest.holdoutYears[y.backtest.holdoutYears.length - 1]}):</strong>{" "}
+                    {lang === "ur"
+                      ? `ٹرینڈ MAE ‏${y.backtest.trendMae} ٹن/ہیکٹر — سادہ اندازہ ${y.backtest.naiveMae}، 5 سال کی اوسط ${y.backtest.avg5Mae}۔ یہ پرانی فصلوں پر جانچ ہے، مستقبل کی ضمانت نہیں۔`
+                      : `Trend MAE ${y.backtest.trendMae} t/ha vs naive ${y.backtest.naiveMae} t/ha and 5-year average ${y.backtest.avg5Mae} t/ha. Tested on past seasons — not a guarantee for the future.`}
+                  </p>
+                  {result.revenue ? (
+                    <div className="ref-box">
+                      <strong>{t.revenue}:</strong>{" "}
+                      {lang === "ur"
+                        ? `تقریباً ${result.revenue.grossPerHa.toLocaleString()} روپے فی ہیکٹر (حد ${result.revenue.bandLowPerHa.toLocaleString()}–${result.revenue.bandHighPerHa.toLocaleString()} روپے)، ${result.revenue.priceUsed === "district" ? "ضلع" : result.revenue.priceUsed === "spot" ? "اسپاٹ" : "پنجاب کی اوسط"} حوالہ قیمت ${result.revenue.pricePer40kg.toLocaleString()} روپے فی 40 کلو (${result.revenue.published})۔ یہ منافع نہیں ہے — بیج، کھاد، پانی اور مزدوری کے اخراجات شامل نہیں۔`
+                        : `About Rs. ${result.revenue.grossPerHa.toLocaleString()} per hectare (range Rs. ${result.revenue.bandLowPerHa.toLocaleString()}–${result.revenue.bandHighPerHa.toLocaleString()}), at the ${result.revenue.priceUsed} reference price of Rs. ${result.revenue.pricePer40kg.toLocaleString()} per 40 kg (${result.revenue.published}). This is not profit — seed, fertilizer, water and labour costs are not included.`}
+                      <br />
+                      <span className="muted">{result.revenue.method}</span>
+                    </div>
+                  ) : (
+                    <p className="muted">
+                      {lang === "ur"
+                        ? "آمدنی کا اندازہ نہیں — اس فصل کی کوئی واحد حوالہ قیمت نہیں (چاول کی تین اقسام ہیں)۔"
+                        : "No revenue estimate — no single reference price for this crop (rice has three varieties)."}
+                    </p>
+                  )}
                   <div className="bars">
                     {y.seriesLast10.map((p) => (
                       <div className="bar" key={p.year}>
@@ -504,6 +707,60 @@ export default function Home() {
             </section>
           </>
         )}
+
+        <section className="card">
+          <h2>{t.methodsTitle}</h2>
+          <ul className="cites">
+            <li>
+              <strong>
+                {lang === "ur" ? "موسم (براہ راست)" : "Weather (live)"}:
+              </strong>{" "}
+              {lang === "ur"
+                ? "Open-Meteo 7 دن کی پیش گوئی، Asia/Karachi۔ پانی کی ضرورت = ET0 − بارش (حوالہ مانگ)۔"
+                : "Open-Meteo 7-day forecast, Asia/Karachi. Water need = ET0 − rain (reference demand)."}
+            </li>
+            <li>
+              <strong>
+                {lang === "ur" ? "مٹی (براہ راست)" : "Soil (live)"}:
+              </strong>{" "}
+              ISRIC SoilGrids, 0–5 cm. “—”{" "}
+              {lang === "ur"
+                ? "کا مطلب ہے اس نقطے کے لیے قدر رپورٹ نہیں ہوئی۔"
+                : "means no value was reported for this point."}
+            </li>
+            <li>
+              <strong>
+                {lang === "ur" ? "منڈی (حوالہ)" : "Market (reference)"}:
+              </strong>{" "}
+              AMIS Punjab, 2–3 Nov 2026 —{" "}
+              {lang === "ur"
+                ? "براہ راست ریٹ نہیں۔ بیچنے سے پہلے اپنی منڈی سے تصدیق کریں۔"
+                : "not a live rate. Confirm at your local mandi before selling."}
+            </li>
+            <li>
+              <strong>
+                {lang === "ur" ? "پیداوار (بیس لائن ماڈل)" : "Yield (baseline model)"}:
+              </strong>{" "}
+              {lang === "ur"
+                ? "FAO/OWID پاکستان سیریز (1961–2024) پر فٹ شدہ لکیری ٹرینڈ، آخری 25 موسم۔ بیک ٹیسٹ: 2020–2024 الگ رکھ کر جانچا گیا۔ قومی اوسط — ضلعی پیداوار مختلف ہو سکتی ہے۔ کپاس اور گنے کے لیے کوئی سیریز نہیں۔"
+                : "Linear trend fitted on the FAO/OWID Pakistan series (1961–2024), last 25 seasons. Backtest: 2020–2024 held out. National average — district yields differ. No series for cotton or sugarcane."}
+            </li>
+            <li>
+              <strong>
+                {lang === "ur" ? "آمدنی (اندازہ)" : "Revenue (estimate)"}:
+              </strong>{" "}
+              {lang === "ur"
+                ? "پیداوار × حوالہ قیمت۔ اخراجات سے پہلے — یہ منافع نہیں ہے۔"
+                : "Forecast yield × reference price. Before costs — this is not profit."}
+            </li>
+            <li>
+              <strong>{lang === "ur" ? "حدود" : "Limits"}:</strong>{" "}
+              {lang === "ur"
+                ? "اگر کوئی ذریعہ دستیاب نہ ہو تو جواب صاف کہتا ہے — اندازہ نہیں لگاتا۔ ایجنٹ صرف پڑھتا ہے، کچھ بدلتا نہیں۔"
+                : "If a source is unavailable, the answer says so — it never guesses. The agent is read-only."}
+            </li>
+          </ul>
+        </section>
 
         <footer>
           <h3>{t.aboutTitle}</h3>
