@@ -108,6 +108,9 @@ button.ask:disabled { opacity: 0.55; cursor: wait; }
 .badge.base { background: #e3f2fd; color: #0d47a1; }
 .badge.fallback { background: var(--amber-light); color: var(--amber); }
 .badge.gemini { background: #ede7f6; color: #4527a0; }
+.badge.ondevice { background: #e8f5e9; color: #2e7d32; }
+.badge.cloud { background: #ede7f6; color: #4527a0; }
+.badge.hybrid { background: #e0f2f1; color: #00695c; }
 .badge.warn { background: var(--red-light); color: var(--red); }
 
 .answer { white-space: pre-wrap; font-size: 1.05rem; }
