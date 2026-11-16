@@ -1,8 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DISTRICTS } from "@/lib/districts";
 import { waterNeed } from "@/lib/weather";
+import {
+  buildHybridPrompt,
+  buildPlanImagePrompt,
+  generatePlanImage,
+  initDeviceModel,
+  isFirebaseConfigured,
+  speakUrdu,
+  synthesizeAnswer,
+  type HybridInferenceSource,
+} from "@/lib/firebase-ai";
 import type { AskResult } from "@/lib/orchestrate";
 import type { CropKey } from "@/lib/intent";
 import type { CropComparison } from "@/lib/compare";
@@ -96,6 +106,21 @@ const STR: Record<
     mic: "بول کر پوچھیں",
     listening: "سن رہا ہوں… بولیں",
     micUnsupported: "اس براؤزر میں بول کر پوچھنا دستیاب نہیں — لکھ کر پوچھیں۔",
+    listen: "🔊 سنو",
+    stop: "⏹ روکو",
+    ttsUnavailable:
+      "بول کر سنانا ابھی دستیاب نہیں — اس کے لیے Firebase پروجیکٹ اور کوٹہ چاہیے۔",
+    hybridWorking: "ہائبرڈ جواب تیار ہو رہا ہے…",
+    hybridUnavailable:
+      "ہائبرڈ جواب ابھی دستیاب نہیں — Firebase پروجیکٹ تیار نہیں ہے۔ نیچے سرور جواب موجود ہے۔",
+    onDevice: "📱 آپ کے آلے پر جواب",
+    inCloud: "☁️ کلاؤڈ میں جواب",
+    hybridUnknown: "ہائبرڈ جواب",
+    planImageBtn: "🖼️ ہفتے کا منصوبہ — تصویر بنائیں",
+    planImageWorking: "تصویر بن رہی ہے…",
+    planImageError:
+      "تصویر ابھی نہیں بن سکی — اس کے لیے Firebase پروجیکٹ اور کوٹہ چاہیے۔",
+    planImageDownload: "تصویر ڈاؤن لوڈ کریں",
     property: "خاصیت",
     value: "قدر",
     aboutTitle: "اس ایپ کے بارے میں",
@@ -147,6 +172,21 @@ const STR: Record<
     mic: "Ask by voice",
     listening: "Listening… speak now",
     micUnsupported: "Voice input is not available in this browser — please type instead.",
+    listen: "🔊 Listen",
+    stop: "⏹ Stop",
+    ttsUnavailable:
+      "Spoken answers are not available yet — they need a Firebase project and quota.",
+    hybridWorking: "Preparing the hybrid answer…",
+    hybridUnavailable:
+      "Hybrid answers are not available yet — the Firebase project is not set up. The server answer below still works.",
+    onDevice: "📱 Answered on your device",
+    inCloud: "☁️ Answered in the cloud",
+    hybridUnknown: "Hybrid answer",
+    planImageBtn: "🖼️ Make a weekly-plan picture",
+    planImageWorking: "Making the picture…",
+    planImageError:
+      "The picture could not be made yet — it needs a Firebase project and quota.",
+    planImageDownload: "Download the picture",
     property: "Property",
     value: "Value",
     aboutTitle: "About this app",
@@ -156,6 +196,40 @@ const STR: Record<
       "Built by Umar Shareef — BSCS (Final Year), University of Agriculture Faisalabad, Pakistan.",
   },
 };
+
+/**
+ * Play raw PCM audio (24 kHz, 16-bit mono) from Gemini TTS via an
+ * AudioContext. Returns a stop handle; the context is closed on end or
+ * on stop. Browser-only — called from the speak button (a user gesture).
+ */
+function playPcm(
+  bytes: ArrayBuffer,
+  onEnded: () => void,
+): { stop: () => void } {
+  const ctx = new AudioContext({ sampleRate: 24000 });
+  const int16 = new Int16Array(bytes);
+  const buf = ctx.createBuffer(1, int16.length, 24000);
+  const channel = buf.getChannelData(0);
+  for (let i = 0; i < int16.length; i++) channel[i] = int16[i] / 32768;
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  src.connect(ctx.destination);
+  src.onended = () => {
+    void ctx.close().catch(() => undefined);
+    onEnded();
+  };
+  src.start();
+  return {
+    stop: () => {
+      try {
+        src.stop();
+      } catch {
+        // Already stopped — onended still fires and closes the context.
+      }
+      void ctx.close().catch(() => undefined);
+    },
+  };
+}
 
 export default function Home() {
   const [lang, setLang] = useState<Lang>("ur");
@@ -171,6 +245,25 @@ export default function Home() {
   const [micSupported, setMicSupported] = useState(false);
   const [listening, setListening] = useState(false);
   const [micError, setMicError] = useState<string | null>(null);
+  // #BuildHybridAI — hybrid answer (on-device first, cloud fallback).
+  const [hybridAnswer, setHybridAnswer] = useState<{
+    text: string;
+    source: HybridInferenceSource;
+  } | null>(null);
+  const [hybridStatus, setHybridStatus] = useState<
+    "idle" | "working" | "done" | "unavailable"
+  >("idle");
+  const [deviceProgress, setDeviceProgress] = useState<number | null>(null);
+  // #BuildHybridAI — spoken answers (Gemini TTS, cloud-only).
+  const [speaking, setSpeaking] = useState(false);
+  const [ttsError, setTtsError] = useState<string | null>(null);
+  const audioStopRef = useRef<(() => void) | null>(null);
+  // #BuildHybridAI — weekly-plan picture (Nano Banana, cloud-only).
+  const [planImage, setPlanImage] = useState<string | null>(null);
+  const [planImageStatus, setPlanImageStatus] = useState<
+    "idle" | "working" | "done" | "error"
+  >("idle");
+  const [planImageError, setPlanImageError] = useState<string | null>(null);
 
   useEffect(() => {
     // Mount-only feature detection: SpeechRecognition exists only in the
@@ -229,12 +322,65 @@ export default function Home() {
   const t = STR[lang];
   const examples = lang === "ur" ? EXAMPLES_UR : EXAMPLES_EN;
 
+  function stopSpeaking() {
+    audioStopRef.current?.();
+    audioStopRef.current = null;
+    setSpeaking(false);
+  }
+
+  /** Speak the shown answer aloud in Urdu (Gemini TTS, cloud-only). */
+  async function speak() {
+    if (speaking) {
+      stopSpeaking();
+      return;
+    }
+    const text = (hybridAnswer?.text ?? result?.answer.text ?? "").trim();
+    if (!text) return;
+    setTtsError(null);
+    setSpeaking(true);
+    try {
+      const pcm = await speakUrdu(text);
+      audioStopRef.current = playPcm(pcm, () => setSpeaking(false)).stop;
+    } catch (e) {
+      setSpeaking(false);
+      setTtsError((e as Error).message);
+    }
+  }
+
+  /** Generate the weekly-plan picture (Nano Banana, cloud-only, optional). */
+  async function makePlanImage() {
+    if (!result) return;
+    setPlanImageStatus("working");
+    setPlanImageError(null);
+    try {
+      const url = await generatePlanImage(buildPlanImagePrompt(result));
+      setPlanImage(url);
+      setPlanImageStatus("done");
+    } catch (e) {
+      setPlanImageStatus("error");
+      setPlanImageError((e as Error).message);
+    }
+  }
+
   async function ask(q?: string) {
     const text = (q ?? question).trim();
     if (!text) return;
+    stopSpeaking();
     setLoading(true);
     setError(null);
     setResult(null);
+    setHybridAnswer(null);
+    setHybridStatus("idle");
+    setDeviceProgress(null);
+    setTtsError(null);
+    setPlanImage(null);
+    setPlanImageStatus("idle");
+    setPlanImageError(null);
+    // User gesture: warm up the on-device model (safe no-op while
+    // Firebase is not configured). Must run before any hybrid request.
+    if (isFirebaseConfigured()) {
+      void initDeviceModel((pct) => setDeviceProgress(pct));
+    }
     try {
       const res = await fetch("/api/ask", {
         method: "POST",
@@ -248,7 +394,23 @@ export default function Home() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? t.failed);
-      setResult(data as AskResult);
+      const askResult = data as AskResult;
+      setResult(askResult);
+      // Hybrid re-synthesis from the same cited facts (client-side,
+      // on-device first, cloud fallback). Any failure keeps the server
+      // answer — the app stays fully usable without a Firebase project.
+      if (isFirebaseConfigured()) {
+        setHybridStatus("working");
+        try {
+          const hybrid = await synthesizeAnswer(
+            buildHybridPrompt(askResult),
+          );
+          setHybridAnswer(hybrid);
+          setHybridStatus("done");
+        } catch {
+          setHybridStatus("unavailable");
+        }
+      }
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -413,16 +575,55 @@ export default function Home() {
             <section className="card">
               <h2>
                 {t.answer}
-                <span
-                  className={`badge ${result.answer.source === "gemini" ? "gemini" : "fallback"}`}
-                >
-                  {result.answer.source === "gemini" ? t.gemini : t.fallback}
-                </span>
+                {hybridAnswer ? (
+                  <span
+                    className={`badge ${hybridAnswer.source === "ON_DEVICE" ? "ondevice" : hybridAnswer.source === "IN_CLOUD" ? "cloud" : "hybrid"}`}
+                  >
+                    {hybridAnswer.source === "ON_DEVICE"
+                      ? t.onDevice
+                      : hybridAnswer.source === "IN_CLOUD"
+                        ? t.inCloud
+                        : t.hybridUnknown}
+                  </span>
+                ) : (
+                  <span
+                    className={`badge ${result.answer.source === "gemini" ? "gemini" : "fallback"}`}
+                  >
+                    {result.answer.source === "gemini" ? t.gemini : t.fallback}
+                  </span>
+                )}
               </h2>
+              {hybridStatus === "working" && (
+                <p className="muted">{t.hybridWorking}</p>
+              )}
+              {hybridStatus === "unavailable" && (
+                <p className="muted">{t.hybridUnavailable}</p>
+              )}
+              {deviceProgress !== null && deviceProgress < 100 && (
+                <p className="muted">
+                  {lang === "ur"
+                    ? `Device model download ho raha hai… ${deviceProgress}%`
+                    : `Downloading the on-device model… ${deviceProgress}%`}
+                </p>
+              )}
               {result.answer.fallbackReason && (
                 <p className="muted">{result.answer.fallbackReason}</p>
               )}
-              <p className="answer">{result.answer.text}</p>
+              <p className="answer">
+                {hybridAnswer?.text ?? result.answer.text}
+              </p>
+              <div className="chips">
+                <button type="button" onClick={speak}>
+                  {speaking ? t.stop : t.listen}
+                </button>
+              </div>
+              {ttsError && (
+                <p className="error">
+                  {ttsError.includes("not configured")
+                    ? t.ttsUnavailable
+                    : ttsError}
+                </p>
+              )}
               <h3>{t.citations}</h3>
               <ul className="cites">
                 {result.citations.map((c, i) => (
@@ -448,6 +649,38 @@ export default function Home() {
                   </li>
                 ))}
               </ol>
+              <div className="chips">
+                <button
+                  type="button"
+                  onClick={makePlanImage}
+                  disabled={planImageStatus === "working"}
+                >
+                  {planImageStatus === "working"
+                    ? t.planImageWorking
+                    : t.planImageBtn}
+                </button>
+              </div>
+              {planImageError && (
+                <p className="error">
+                  {planImageError.includes("not configured")
+                    ? t.planImageError
+                    : planImageError}
+                </p>
+              )}
+              {planImage && (
+                <div>
+                  <img
+                    src={planImage}
+                    alt={lang === "ur" ? "ہفتے کا منصوبہ" : "Weekly plan"}
+                    style={{ maxWidth: "100%", borderRadius: 12 }}
+                  />
+                  <p>
+                    <a href={planImage} download="agriyield-weekly-plan.png">
+                      {t.planImageDownload}
+                    </a>
+                  </p>
+                </div>
+              )}
             </section>
 
             <section className="card">
@@ -758,6 +991,14 @@ export default function Home() {
               {lang === "ur"
                 ? "اگر کوئی ذریعہ دستیاب نہ ہو تو جواب صاف کہتا ہے — اندازہ نہیں لگاتا۔ ایجنٹ صرف پڑھتا ہے، کچھ بدلتا نہیں۔"
                 : "If a source is unavailable, the answer says so — it never guesses. The agent is read-only."}
+            </li>
+            <li>
+              <strong>
+                {lang === "ur" ? "ہائبرڈ AI (نیا)" : "Hybrid AI (new)"}:
+              </strong>{" "}
+              {lang === "ur"
+                ? "جواب آپ کے آلے پر Gemini Nano سے یا کلاؤڈ سے بنتا ہے — ہر جواب پر لکھا ہوتا ہے کہاں بنا۔ بول کر سنانا اور منصوبے کی تصویر کلاؤڈ سے ہے اور اس کے لیے Firebase پروجیکٹ اور کوٹہ چاہیے؛ بغیر اس کے یہ بند رہتا ہے اور پرانا طریقہ چلتا ہے۔"
+                : "Answers come from on-device Gemini Nano or the cloud — every answer says where it was made. Spoken answers and plan pictures are cloud-only and need a Firebase project and quota; without them they stay off and the previous method runs."}
             </li>
           </ul>
         </section>
