@@ -1,0 +1,1159 @@
+{
+  "version": "1.0",
+  "generated": "2026-11-24",
+  "note": "phiDays and reentryHours are null for every entry: no product-specific PHI or re-entry interval could be verified from a primary source. The app must display 'label ke mutabiq' (per label) for these fields and must never show a guessed number. WHO classes were verified against the WHO Recommended Classification of Pesticides by Hazard 2019 edition and corroborating peer-reviewed tables; where a class is given it refers to the technical active ingredient, not the formulated product.",
+  "diseases": [
+    {
+      "id": "wheat-yellow-rust",
+      "crop": "wheat",
+      "nameEn": "Yellow rust (stripe rust)",
+      "nameUr": "پیلی کنگی (زرد زنگ)",
+      "symptomsEn": [
+        "Orange-yellow pustules in clear stripes along the leaf veins",
+        "Leaves turn yellow and dry from the tip",
+        "Severe attack stunts the plant and shrivels grain"
+      ],
+      "symptomsUr": [
+        "پتوں کی رگوں کے ساتھ نارنجی-پیلی دھبوں کی لکیریں",
+        "پتے سرے سے پیلے ہو کر سوکھنے لگتے ہیں",
+        "شدید حملے سے پودا چھوٹا رہ جاتا ہے اور دانہ سکڑ جاتا ہے"
+      ],
+      "treatmentEn": [
+        "Scout the crop after 20 January; spray only affected patches after consulting the local agriculture officer",
+        "Use a registered triazole fungicide (active ingredient below) exactly as per the product label",
+        "Grow rust-resistant approved varieties (e.g. Akbar-19, Falak-24); stop all sprays at least 40 days before harvest"
+      ],
+      "treatmentUr": [
+        "20 جنوری کے بعد فصل کا معائنہ کریں؛ صرف متاثرہ حصوں پر مقامی زرعی افسر سے مشورے کے بعد اسپرے کریں",
+        "رجسٹرڈ ٹرائی ایزول فنگس کش (نیچے دیا گیا فعال جزو) لیبل کے مطابق استعمال کریں",
+        "زنگ سے مزاحم منظور شدہ اقسام (مثلاً اکبر-19، فلک-24) کاشت کریں؛ کٹائی سے کم از کم 40 دن پہلے تمام اسپرے بند کر دیں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Propiconazole",
+        "whoClass": "II",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Use resistant varieties; remove volunteer wheat plants; balanced fertiliser, avoid excess nitrogen.",
+      "organicAlternativeUr": "مزاحم اقسام استعمال کریں؛ خود رو گندم کے پودے ختم کریں؛ متوازن کھاد دیں، نائٹروجن زیادہ نہ دیں۔",
+      "source": "Punjab Agriculture Department wheat advisory (Nov 2026, via UrduPoint/APP); WRI/AARI Faisalabad rust guidance via phytoassist.help; WHO 2019 classification (propiconazole = Class II).",
+      "urUnverified": false
+    },
+    {
+      "id": "wheat-brown-rust",
+      "crop": "wheat",
+      "nameEn": "Brown rust (leaf rust)",
+      "nameUr": "بھوری کنگی (پتوں کا زنگ)",
+      "symptomsEn": [
+        "Scattered orange-brown pustules at random on the upper leaf surface",
+        "Pustules do not follow the leaf veins in stripes",
+        "Leaves dry early and grain filling is poor"
+      ],
+      "symptomsUr": [
+        "پتوں کی اوپری سطح پر بے ترتیب نارنجی-بھورے دھبے",
+        "دھبے رگوں کے ساتھ لکیروں میں نہیں ہوتے",
+        "پتے جلد سوکھ جاتے ہیں اور دانہ بھرتا نہیں"
+      ],
+      "treatmentEn": [
+        "Spray a registered triazole fungicide (active ingredient below) per label, only on affected areas",
+        "Avoid late sowing and excess nitrogen fertiliser"
+      ],
+      "treatmentUr": [
+        "رجسٹرڈ ٹرائی ایزول فنگس کش (نیچے فعال جزو) لیبل کے مطابق صرف متاثرہ حصوں پر اسپرے کریں",
+        "دیر سے بوائی اور نائٹروجن کی زیادتی سے پرہیز کریں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Tebuconazole",
+        "whoClass": "II",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Resistant varieties; destroy volunteer plants; balanced nutrition.",
+      "organicAlternativeUr": "مزاحم اقسام؛ خود رو پودے ختم کریں؛ متوازن غذا۔",
+      "source": "WRI/AARI Faisalabad rust guidance via phytoassist.help; WHO 2019 classification (tebuconazole = Class II).",
+      "urUnverified": false
+    },
+    {
+      "id": "wheat-loose-smut",
+      "crop": "wheat",
+      "nameEn": "Loose smut",
+      "nameUr": "ڈھیلی کانگی (لوز سمٹ)",
+      "symptomsEn": [
+        "Ears emerge as black powdery masses instead of grain",
+        "Infected ears appear earlier than healthy ears",
+        "Black powder blows away in wind, leaving a bare stalk"
+      ],
+      "symptomsUr": [
+        "بالوں کی جگہ کالے پاؤڈر والے خوشے نکلتے ہیں",
+        "متاثرہ بالیں صحت مند بالوں سے پہلے نکلتی ہیں",
+        "کالا پاؤڈر ہوا میں اڑ جاتا ہے اور خالی تنا رہ جاتا ہے"
+      ],
+      "treatmentEn": [
+        "Treat seed before sowing with a registered seed-treatment fungicide (tebuconazole-based) per label",
+        "Use certified disease-free seed"
+      ],
+      "treatmentUr": [
+        "بوائی سے پہلے بیج کو رجسٹرڈ بیج علاج فنگس کش (ٹیبوکونازول) سے لیبل کے مطابق علاج کریں",
+        "تصدیق شدہ بیماری سے پاک بیج استعمال کریں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Tebuconazole (seed treatment)",
+        "whoClass": "II",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Certified seed; hot-water seed treatment where advised by extension staff.",
+      "organicAlternativeUr": "تصدیق شدہ بیج؛ زرعی عملے کے مشورے سے بیج کا گرم پانی سے علاج۔",
+      "source": "Punjab Agriculture Department wheat sowing advisory Nov 2026 (seed treatment with imidacloprid + tebuconazole / thiophanate-methyl); WHO 2019 (tebuconazole = Class II).",
+      "urUnverified": false
+    },
+    {
+      "id": "wheat-karnal-bunt",
+      "crop": "wheat",
+      "nameEn": "Karnal bunt",
+      "nameUr": "کرنال بنٹ",
+      "symptomsEn": [
+        "Some grains in the ear are partly filled with black powder",
+        "Infected grains smell fishy",
+        "Only a few grains per ear are affected, so it is easy to miss"
+      ],
+      "symptomsUr": [
+        "بالوں کے کچھ دانے جزوی طور پر کالے پاؤڈر سے بھرے ہوتے ہیں",
+        "متاثرہ دانوں سے مچھلی جیسی بو آتی ہے",
+        "فی بال صرف چند دانے متاثر ہوتے ہیں، اس لیے نظر انداز ہو سکتا ہے"
+      ],
+      "treatmentEn": [
+        "Treat seed before sowing with a registered fungicide per label",
+        "Avoid sowing wheat after wheat in the same field; rotate crops"
+      ],
+      "treatmentUr": [
+        "بوائی سے پہلے بیج کا رجسٹرڈ فنگس کش سے لیبل کے مطابق علاج کریں",
+        "ایک ہی کھیت میں گندم کے بعد گندم نہ بوئیں؛ فصل کی گردش کریں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Propiconazole",
+        "whoClass": "II",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Disease-free certified seed; crop rotation; avoid excess irrigation at flowering.",
+      "organicAlternativeUr": "بیماری سے پاک تصدیق شدہ بیج؛ فصل گردش؛ پھول آنے پر زیادہ پانی نہ دیں۔",
+      "source": "Punjab Agriculture Department wheat advisory Nov 2026 (Karnal bunt listed as seed-borne risk; seed treatment advised); WHO 2019 (propiconazole = Class II).",
+      "urUnverified": false
+    },
+    {
+      "id": "wheat-aphids",
+      "crop": "wheat",
+      "nameEn": "Wheat aphids",
+      "nameUr": "گندم کی تیلا (ایفڈز)",
+      "symptomsEn": [
+        "Clusters of small green/black soft insects on leaves, stems and ears",
+        "Leaves curl and turn yellow; sticky honeydew on leaves",
+        "Sooty mould grows on honeydew; grain filling is reduced"
+      ],
+      "symptomsUr": [
+        "پتوں، تنوں اور بالوں پر چھوٹے سبز/کالے نرم کیڑوں کے جھنڈ",
+        "پتے مڑ جاتے ہیں اور پیلے پڑ جاتے ہیں؛ پتوں پر چپچپا رس",
+        "رس پر کالی پھپھوندی لگ جاتی ہے؛ دانہ کم بھرتا ہے"
+      ],
+      "treatmentEn": [
+        "Spray only if aphids cross the economic threshold and after consulting the agriculture officer",
+        "Use a registered neonicotinoid (active ingredient below) per label; do not spray during flowering when bees are active"
+      ],
+      "treatmentUr": [
+        "صرف اس صورت میں اسپرے کریں جب تیلا معاشی حد سے بڑھ جائے اور زرعی افسر سے مشورے کے بعد",
+        "رجسٹرڈ نیونیکوٹینائڈ (نیچے فعال جزو) لیبل کے مطابق استعمال کریں؛ پھول آنے پر شہد کی مکھیوں کے وقت اسپرے نہ کریں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Imidacloprid",
+        "whoClass": "II",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Conserve ladybird beetles and other natural enemies; spray plain water with a strong jet to dislodge aphids; neem extract.",
+      "organicAlternativeUr": "لیڈی برڈ اور دیگر قدرتی دشمنوں کو بچائیں؛ تیز پانی کی دھار سے تیلا گرائیں؛ نیم کا عرق۔",
+      "source": "Punjab Agriculture Department seed-treatment advisory (imidacloprid named); WHO 2019 classification (imidacloprid = Class II). Note: imidacloprid is banned ON PADDY in Punjab (2025) — that ban is paddy-specific, not a national ban.",
+      "urUnverified": false
+    },
+    {
+      "id": "rice-blast",
+      "crop": "rice",
+      "nameEn": "Rice blast",
+      "nameUr": "دھان کی بلاسٹ (جھلساؤ)",
+      "symptomsEn": [
+        "Eye- or diamond-shaped spots on leaves with grey centre and brown-red border",
+        "Neck of the panicle rots, turns brown-black and breaks; grains do not fill",
+        "Nodes show brown lesions and may break"
+      ],
+      "symptomsUr": [
+        "پتوں پر آنکھ یا ہیرے جیسی دھبے جن کا درمیان سرمئی اور کنارہ بھورا-سرخ ہو",
+        "بال کا گردن سڑ کر بھورا-کالا ہو جاتا ہے اور ٹوٹ جاتا ہے؛ دانہ نہیں بھرتا",
+        "گانٹھوں پر بھورے دھبے پڑتے ہیں اور وہ ٹوٹ سکتی ہیں"
+      ],
+      "treatmentEn": [
+        "Spray a registered fungicide (active ingredient below) per label at first appearance",
+        "Avoid excess nitrogen; use resistant varieties; keep nursery moist, not dry"
+      ],
+      "treatmentUr": [
+        "بیماری ظاہر ہوتے ہی رجسٹرڈ فنگس کش (نیچے فعال جزو) لیبل کے مطابق اسپرے کریں",
+        "نائٹروجن کی زیادتی سے پرہیز کریں؛ مزاحم اقسام استعمال کریں؛ نرسری نم رکھیں، خشک نہ ہونے دیں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Tricyclazole",
+        "whoClass": "II",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Disease-free seed; resistant varieties; split nitrogen doses; remove weed hosts on bunds.",
+      "organicAlternativeUr": "بیماری سے پاک بیج؛ مزاحم اقسام؛ نائٹروجن قسطوں میں دیں؛ بندوں پر جڑی بوٹیاں ختم کریں۔",
+      "source": "Rice Research Institute Kala Shah Kaku field trial (Qudsia et al. 2017, Amistar Top/Nativo efficacy); Dawn rice-disease identification guide; WHO 2019 (tricyclazole = Class II).",
+      "urUnverified": false
+    },
+    {
+      "id": "rice-bacterial-leaf-blight",
+      "crop": "rice",
+      "nameEn": "Bacterial leaf blight",
+      "nameUr": "دھان کا بیکٹیریل پتوں کا جھلساؤ",
+      "symptomsEn": [
+        "Wavy yellow-white stripes starting from leaf tip or edge",
+        "In the morning, milky bacterial ooze appears on lesions",
+        "Young plants wilt and dry (kresek stage); older leaves dry from the tip"
+      ],
+      "symptomsUr": [
+        "پتوں کے سرے یا کنارے سے لہردار پیلے-سفید دھاریاں",
+        "صبح کے وقت دھبوں پر دودھیا بیکٹیریل رس نظر آتا ہے",
+        "چھوٹے پودے مرجھا کر سوکھ جاتے ہیں؛ بڑے پتوں کا سرا سوکھتا ہے"
+      ],
+      "treatmentEn": [
+        "No chemical cures infected plants. Apply a registered copper fungicide (active ingredient below) per label to protect healthy plants",
+        "Stop top-dressing nitrogen when disease is visible; drain excess water"
+      ],
+      "treatmentUr": [
+        "متاثرہ پودوں کا کوئی کیمیائی علاج نہیں۔ صحت مند پودوں کی حفاظت کے لیے رجسٹرڈ کاپر فنگس کش (نیچے فعال جزو) لیبل کے مطابق استعمال کریں",
+        "بیماری نظر آتے ہی نائٹروجن کی اوپر والی کھاد بند کر دیں؛ اضافی پانی نکال دیں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Copper oxychloride",
+        "whoClass": "II",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Resistant varieties; disease-free seed; balanced nitrogen; field sanitation.",
+      "organicAlternativeUr": "مزاحم اقسام؛ بیماری سے پاک بیج؛ متوازن نائٹروجن؛ کھیت کی صفائی۔",
+      "source": "Dawn rice-disease guide; Krishi Sahayak rice BLB management; WHO 2019 / KFC 2025 list (copper oxychloride = Class II).",
+      "urUnverified": false,
+      "note": "Bacterial disease — fungicides do not cure it; copper sprays only protect healthy tissue. Labelled as such in the app."
+    },
+    {
+      "id": "rice-brown-spot",
+      "crop": "rice",
+      "nameEn": "Brown spot",
+      "nameUr": "دھان کا بھورا دھبہ",
+      "symptomsEn": [
+        "Round or oval dark-brown spots like sesame seeds on leaves, with a yellow halo",
+        "Spots also appear on grains; seeds shrivel and germinate poorly",
+        "Leaves dry up when many spots join together"
+      ],
+      "symptomsUr": [
+        "پتوں پر تل جیسے گول یا بیضوی گہرے بھورے دھبے جن کے گرد پیلا حلقہ ہو",
+        "دانوں پر بھی دھبے پڑتے ہیں؛ بیج سکڑ جاتے ہیں اور اگتے نہیں",
+        "بہت سے دھبے مل کر پتے سوکھا دیتے ہیں"
+      ],
+      "treatmentEn": [
+        "Spray a registered protectant fungicide (active ingredient below) per label, 2–3 times at 10–15 day intervals if needed",
+        "Use disease-free seed and correct potassium deficiency (brown spot is worse on weak, K-deficient plants)"
+      ],
+      "treatmentUr": [
+        "رجسٹرڈ حفاظتی فنگس کش (نیچے فعال جزو) لیبل کے مطابق ضرورت پڑنے پر 10–15 دن کے وقفے سے 2–3 بار اسپرے کریں",
+        "بیماری سے پاک بیج استعمال کریں اور پوٹاش کی کمی دور کریں (کمزور پودوں پر بیماری زیادہ ہوتی ہے)"
+      ],
+      "pesticide": {
+        "activeIngredient": "Mancozeb",
+        "whoClass": "U",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Healthy seed; balanced fertiliser including potash; crop rotation; burn or bury stubble.",
+      "organicAlternativeUr": "صحت مند بیج؛ پوٹاش سمیت متوازن کھاد؛ فصل گردش؛ پرالی جلا دیں یا دبا دیں۔",
+      "source": "Dawn rice-disease guide; Krishi Sahayak brown-spot management; WHO 2019 (mancozeb = Class U).",
+      "urUnverified": false
+    },
+    {
+      "id": "rice-stem-borer",
+      "crop": "rice",
+      "nameEn": "Rice stem borer",
+      "nameUr": "دھان کا تنے کا بورر (سوراخ کرنے والا کیڑا)",
+      "symptomsEn": [
+        "Young tillers dry and pull out easily (dead heart)",
+        "White empty panicles at heading (whitehead) with no grain",
+        "Small holes in the stem with frass inside"
+      ],
+      "symptomsUr": [
+        "چھوٹے ٹیلر سوکھ جاتے ہیں اور آسانی سے نکل آتے ہیں (ڈیڈ ہارٹ)",
+        "بال نکلنے پر سفید خالی بالیں جن میں دانہ نہیں ہوتا (وائٹ ہیڈ)",
+        "تنے میں چھوٹے سوراخ جن کے اندر کیڑے کا فضلہ ہوتا ہے"
+      ],
+      "treatmentEn": [
+        "Apply a registered insecticide (active ingredient below) per label when dead hearts appear",
+        "Use light traps and pheromone traps for monitoring"
+      ],
+      "treatmentUr": [
+        "ڈیڈ ہارٹ نظر آتے ہی رجسٹرڈ کیڑے مار دوا (نیچے فعال جزو) لیبل کے مطابق استعمال کریں",
+        "نگرانی کے لیے لائٹ ٹریپ اور فیرومون ٹریپ لگائیں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Cartap hydrochloride",
+        "whoClass": "II",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Destroy stubble after harvest; clip seedling tips before transplanting; conserve natural enemies.",
+      "organicAlternativeUr": "کٹائی کے بعد پرالی ختم کریں؛ پنیری لگانے سے پہلے پودوں کے سرے کاٹ دیں؛ قدرتی دشمن بچائیں۔",
+      "source": "CAAFSS rice pest guide (cartap hydrochloride listed); WHO 2019 / KFC 2025 list (cartap = Class II).",
+      "urUnverified": false
+    },
+    {
+      "id": "cotton-bollworms",
+      "crop": "cotton",
+      "nameEn": "Bollworms (American / pink / spotted)",
+      "nameUr": "کپاس کا گولہ کیڑا (بول ورم)",
+      "symptomsEn": [
+        "Round holes bored into squares, flowers and bolls",
+        "Damaged bolls rot and fall; frass near the hole",
+        "Caterpillars feed inside bolls and are hard to see"
+      ],
+      "symptomsUr": [
+        "کلیوں، پھولوں اور ٹینڈوں میں گول سوراخ",
+        "متاثرہ ٹینڈے سڑ کر گر جاتے ہیں؛ سوراخ کے پاس کیڑے کا فضلہ",
+        "سنڈیاں ٹینڈوں کے اندر کھاتی ہیں اور نظر نہیں آتیں"
+      ],
+      "treatmentEn": [
+        "Scout daily at flowering; spray only when the threshold is crossed and under expert guidance",
+        "Use a registered insecticide (active ingredient below) per label; rotate chemical groups to slow resistance"
+      ],
+      "treatmentUr": [
+        "پھول آنے پر روزانہ معائنہ کریں؛ صرف حد پار ہونے پر ماہر کی رہنمائی میں اسپرے کریں",
+        "رجسٹرڈ کیڑے مار دوا (نیچے فعال جزو) لیبل کے مطابق استعمال کریں؛ مزاحمت سے بچنے کے لیے دوا کا گروپ بدلیں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Emamectin benzoate",
+        "whoClass": "II",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Pheromone traps (1/acre monitoring, 8/acre control); Trichogramma cards; destroy cotton sticks after season.",
+      "organicAlternativeUr": "فیرومون ٹریپ (نگرانی 1 فی ایکڑ، کنٹرول 8 فی ایکڑ)؛ ٹرائیکوگراما کارڈ؛ سیزن کے بعد کپاس کی لکڑیاں ختم کریں۔",
+      "source": "Farmers Advisory Committee (CCRI Multan) fortnightly cotton guidelines; Tajdar et al. 2025 (emamectin benzoate most effective vs fall armyworm/bollworm complex); WHO 2019 (emamectin benzoate = Class II).",
+      "urUnverified": false
+    },
+    {
+      "id": "cotton-whitefly",
+      "crop": "cotton",
+      "nameEn": "Whitefly",
+      "nameUr": "کپاس کی سفید مکھی",
+      "symptomsEn": [
+        "Tiny white flies on the underside of leaves; they fly up in a cloud when the plant is shaken",
+        "Leaves turn yellow, curl and dry; black sooty mould on sticky honeydew",
+        "Heavy attack causes boll shedding and poor lint quality"
+      ],
+      "symptomsUr": [
+        "پتوں کی نچلی سطح پر چھوٹی سفید مکھیاں؛ پودا ہلانے پر بادل کی طرح اڑتی ہیں",
+        "پتے پیلے ہو کر مڑ جاتے ہیں اور سوکھتے ہیں؛ چپچپے رس پر کالی پھپھوندی",
+        "شدید حملے سے ٹینڈے گر جاتے ہیں اور روئی کا معیار خراب ہوتا ہے"
+      ],
+      "treatmentEn": [
+        "Install 10 yellow sticky traps per acre; spray only at/above 5 nymphs or adults per leaf",
+        "Use a registered insect growth regulator (active ingredient below) per label; avoid repeated broad-spectrum pyrethroids"
+      ],
+      "treatmentUr": [
+        "فی ایکڑ 10 پیلے چپچپے ٹریپ لگائیں؛ صرف 5 نمف یا بالغ فی پتا ہونے پر اسپرے کریں",
+        "رجسٹرڈ انسکٹ گروتھ ریگولیٹر (نیچے فعال جزو) لیبل کے مطابق استعمال کریں؛ بار بار وسیع اثر والی دوا نہ چھڑکیں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Pyriproxyfen",
+        "whoClass": "U",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Yellow sticky traps; conserve Chrysoperla (green lacewing) and ladybirds; remove weed hosts.",
+      "organicAlternativeUr": "پیلے چپچپے ٹریپ؛ سبز لیس ونگ اور لیڈی برڈ بچائیں؛ جڑی بوٹیوں کے میزبان پودے ختم کریں۔",
+      "source": "Farmers Advisory Committee (CCRI Multan) cotton guidelines (pyriproxyfen 400–500 ml/acre at threshold); COLEAD/WHO 2019 (pyriproxyfen = Class U).",
+      "urUnverified": false
+    },
+    {
+      "id": "cotton-leaf-curl-virus",
+      "crop": "cotton",
+      "nameEn": "Cotton leaf curl virus (CLCV)",
+      "nameUr": "کپاس کا پتہ مڑنے والا وائرس",
+      "symptomsEn": [
+        "Leaves curl upward, thicken and become leathery; veins swell",
+        "Small leaf-like outgrowths (enations) on the underside of leaves",
+        "Plants are stunted and produce few, small bolls"
+      ],
+      "symptomsUr": [
+        "پتے اوپر کی طرف مڑ جاتے ہیں، موٹے اور چمڑے جیسے ہو جاتے ہیں؛ رگیں پھول جاتی ہیں",
+        "پتوں کی نچلی سطح پر چھوٹے پتے جیسی افزائشیں",
+        "پودے چھوٹے رہ جاتے ہیں اور کم، چھوٹے ٹینڈے بنتے ہیں"
+      ],
+      "treatmentEn": [
+        "There is NO spray that cures the virus inside the plant. Control the whitefly vector with a registered insecticide (active ingredient below) per label",
+        "Uproot and destroy infected plants immediately; use CLCV-resistant approved varieties"
+      ],
+      "treatmentUr": [
+        "پودے کے اندر وائرس کا کوئی اسپرے علاج نہیں۔ سفید مکھی کو رجسٹرڈ دوا (نیچے فعال جزو) سے لیبل کے مطابق کنٹرول کریں",
+        "متاثرہ پودے فوراً اکھاڑ کر تلف کریں؛ وائرس سے مزاحم منظور شدہ اقسام استعمال کریں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Flonicamid (for whitefly vector only)",
+        "whoClass": "II",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Resistant varieties only (e.g. CKC-122, IUB-2013); destroy weed hosts (Croton, Xanthium, tomato, chilli); rogue infected plants.",
+      "organicAlternativeUr": "صرف مزاحم اقسام (مثلاً CKC-122، IUB-2013)؛ جڑی بوٹیوں کے میزبان ختم کریں؛ متاثرہ پودے اکھاڑ دیں۔",
+      "source": "Agropioo cotton guide / CCRI guidance (no cure for CLCV; vector control + roguing); WHO 2019 / KFC 2025 (flonicamid = Class II).",
+      "urUnverified": false,
+      "note": "Virus — no chemical cure. The pesticide listed controls only the whitefly vector. The app must show this prominently."
+    },
+    {
+      "id": "cotton-jassid",
+      "crop": "cotton",
+      "nameEn": "Jassid (leafhopper)",
+      "nameUr": "کپاس کا جاسڈ (پتہ چوسنے والا کیڑا)",
+      "symptomsEn": [
+        "Leaf edges turn yellow, then brown and curl downward (hopper burn)",
+        "Leaves become cup-shaped and brittle",
+        "Heavy attack stunts plants and reduces boll set"
+      ],
+      "symptomsUr": [
+        "پتوں کے کنارے پہلے پیلے، پھر بھورے ہو کر نیچے مڑ جاتے ہیں",
+        "پتے پیالے جیسے اور نازک ہو جاتے ہیں",
+        "شدید حملے سے پودے چھوٹے رہ جاتے ہیں اور ٹینڈے کم بنتے ہیں"
+      ],
+      "treatmentEn": [
+        "Spray only at/above 1 adult or nymph per leaf",
+        "Use a registered insecticide (active ingredient below) per label"
+      ],
+      "treatmentUr": [
+        "صرف 1 بالغ یا نمف فی پتا ہونے پر اسپرے کریں",
+        "رجسٹرڈ کیڑے مار دوا (نیچے فعال جزو) لیبل کے مطابق استعمال کریں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Flonicamid",
+        "whoClass": "II",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Conserve natural enemies; avoid broad-spectrum sprays early in the season; balanced nitrogen.",
+      "organicAlternativeUr": "قدرتی دشمن بچائیں؛ سیزن کے شروع میں وسیع اثر والی دوا نہ چھڑکیں؛ متوازن نائٹروجن۔",
+      "source": "Farmers Advisory Committee (CCRI Multan) cotton guidelines (flonicamid 60 g/acre at 1/leaf threshold); WHO 2019 / KFC 2025 (flonicamid = Class II).",
+      "urUnverified": false
+    },
+    {
+      "id": "maize-fall-armyworm",
+      "crop": "maize",
+      "nameEn": "Fall armyworm",
+      "nameUr": "مکئی کا فال آرمی ورم",
+      "symptomsEn": [
+        "Skeletonised or 'windowed' leaves with ragged holes and masses of faecal pellets in the whorl",
+        "Larvae have an inverted-Y mark on the head and four black dots on the rear segments",
+        "Cobs are damaged when infestation is heavy"
+      ],
+      "symptomsUr": [
+        "پتے کنکال جیسے یا کھڑکی دار، پھٹے ہوئے سوراخ اور گچھے میں کیڑے کا فضلہ",
+        "سنڈی کے سر پر الٹی Y کا نشان اور پچھلے حصے پر چار کالے نقطے",
+        "شدید حملے میں بھٹے کو نقصان پہنچتا ہے"
+      ],
+      "treatmentEn": [
+        "Scout the whorl early; spray a registered insecticide (active ingredient below) per label, directing spray into the whorl",
+        "Rotate chemical groups; do not rely on chlorpyrifos or lambda-cyhalothrin alone (resistance reported in South Punjab)"
+      ],
+      "treatmentUr": [
+        "جلد گچھے کا معائنہ کریں؛ رجسٹرڈ دوا (نیچے فعال جزو) لیبل کے مطابق گچھے کے اندر اسپرے کریں",
+        "دوا کا گروپ بدلیں؛ صرف کلورپائریفاس یا لیمبڈا-سائی ہیلوتھرن پر انحصار نہ کریں (جنوبی پنجاب میں مزاحمت رپورٹ ہوئی ہے)"
+      ],
+      "pesticide": {
+        "activeIngredient": "Emamectin benzoate",
+        "whoClass": "II",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Hand-pick larvae in small fields; Trichogramma releases; neem extract; deep ploughing to expose pupae.",
+      "organicAlternativeUr": "چھوٹے کھیتوں میں سنڈیاں ہاتھ سے چنیں؛ ٹرائیکوگراما چھوڑیں؛ نیم کا عرق؛ گہرا ہل چلا کر پیوپا بے نقاب کریں۔",
+      "source": "Ramzan et al. 2023 (JPAA review, FAW in Pakistan since 2017/2019); Tajdar et al. 2025 (emamectin benzoate + lufenuron most toxic; resistance to chlorpyrifos/lambda-cyhalothrin); WHO 2019 (emamectin benzoate = Class II).",
+      "urUnverified": false
+    },
+    {
+      "id": "maize-stalk-rot",
+      "crop": "maize",
+      "nameEn": "Stalk rot",
+      "nameUr": "مکئی کا تنے کا سڑاؤ",
+      "symptomsEn": [
+        "Lower stalk becomes soft, discoloured and rots; plants lodge (fall over)",
+        "Leaves dry prematurely from the bottom up",
+        "Pith inside the stalk is shredded and discoloured"
+      ],
+      "symptomsUr": [
+        "نچلا تنا نرم، بے رنگ اور سڑا ہوا؛ پودے گر جاتے ہیں",
+        "پتے نیچے سے اوپر کی طرف جلد سوکھ جاتے ہیں",
+        "تنے کے اندر کا گودا پھٹا ہوا اور بے رنگ ہوتا ہے"
+      ],
+      "treatmentEn": [
+        "Use a registered fungicide seed treatment / spray (active ingredient below) per label where advised",
+        "Improve drainage; avoid waterlogging and excess nitrogen"
+      ],
+      "treatmentUr": [
+        "مشورے پر رجسٹرڈ فنگس کش بیج علاج/اسپرے (نیچے فعال جزو) لیبل کے مطابق استعمال کریں",
+        "نکاسی بہتر کریں؛ پانی کھڑا نہ ہونے دیں اور نائٹروجن زیادہ نہ دیں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Carbendazim",
+        "whoClass": "U",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Resistant varieties; balanced fertiliser; crop rotation; destroy infected stalks.",
+      "organicAlternativeUr": "مزاحم اقسام؛ متوازن کھاد؛ فصل گردش؛ متاثرہ تنے تلف کریں۔",
+      "source": "General plant-pathology guidance for maize stalk rot (Fusarium); WHO 2019 (carbendazim = Class U). Punjab-specific trial data NOT found — flagged.",
+      "urUnverified": false,
+      "note": "Punjab-specific stalk-rot trial data not found in primary sources; treatment is general guidance — app should say 'label ke mutabiq'."
+    },
+    {
+      "id": "maize-leaf-blight",
+      "crop": "maize",
+      "nameEn": "Leaf blight (northern / southern)",
+      "nameUr": "مکئی کا پتوں کا جھلساؤ",
+      "symptomsEn": [
+        "Long grey-green spindle-shaped lesions on leaves that turn brown",
+        "Lesions join together and large leaf areas dry up",
+        "Severe attack reduces cob filling"
+      ],
+      "symptomsUr": [
+        "پتوں پر لمبے سرمئی-سبز تکونے دھبے جو بھورے ہو جاتے ہیں",
+        "دھبے مل کر پتے کے بڑے حصے سوکھا دیتے ہیں",
+        "شدید حملے سے بھٹا کم بھرتا ہے"
+      ],
+      "treatmentEn": [
+        "Spray a registered protectant fungicide (active ingredient below) per label at first appearance",
+        "Use resistant varieties; remove infected debris"
+      ],
+      "treatmentUr": [
+        "بیماری ظاہر ہوتے ہی رجسٹرڈ حفاظتی فنگس کش (نیچے فعال جزو) لیبل کے مطابق اسپرے کریں",
+        "مزاحم اقسام استعمال کریں؛ متاثرہ باقیات ختم کریں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Mancozeb",
+        "whoClass": "U",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Resistant varieties; crop rotation; balanced nutrition; field sanitation.",
+      "organicAlternativeUr": "مزاحم اقسام؛ فصل گردش؛ متوازن غذا؛ کھیت کی صفائی۔",
+      "source": "General maize leaf-blight guidance; WHO 2019 (mancozeb = Class U). Punjab-specific recommendation NOT verified — flagged.",
+      "urUnverified": false,
+      "note": "Punjab-specific leaf-blight recommendation not verified in primary sources — general guidance only."
+    },
+    {
+      "id": "sugarcane-red-rot",
+      "crop": "sugarcane",
+      "nameEn": "Red rot",
+      "nameUr": "گنے کا سرخ سڑاؤ (ریڈ راٹ)",
+      "symptomsEn": [
+        "Third leaf from the top dries; red lesions on the leaf midrib",
+        "Split cane shows red pith with white bands across the stalk",
+        "Cane shrivels, gives an alcoholic smell, and the whole stool may die"
+      ],
+      "symptomsUr": [
+        "اوپر سے تیسرا پتا سوکھتا ہے؛ پتے کی درمیانی رگ پر سرخ دھبے",
+        "کاٹا ہوا گنا اندر سے سرخ جس میں سفید پٹیاں",
+        "گنا سکڑ جاتا ہے، اس سے شراب جیسی بو آتی ہے اور پورا جھنڈ مر سکتا ہے"
+      ],
+      "treatmentEn": [
+        "Dip setts for 30 minutes in carbendazim solution per label before planting (dose on label)",
+        "Use healthy setts from a healthy crop and approved resistant varieties (e.g. CPF-250/251/252/253)"
+      ],
+      "treatmentUr": [
+        "بوائی سے پہلے گنے کے ٹکڑوں کو کاربینڈازم کے محلول میں لیبل کے مطابق 30 منٹ بھگوئیں",
+        "صحت مند فصل سے صحت مند بیج اور منظور شدہ مزاحم اقسام (مثلاً CPF-250/251/252/253) استعمال کریں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Carbendazim (sett dip)",
+        "whoClass": "U",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Healthy setts; hot-water treatment (51°C, 2–3 h); burn diseased stools; do not irrigate healthy fields from infected ones; crop rotation.",
+      "organicAlternativeUr": "صحت مند بیج؛ گرم پانی کا علاج (51 ڈگری، 2–3 گھنٹے)؛ متاثرہ جھنڈ جلا دیں؛ متاثرہ کھیت کا پانی صحت مند کھیت میں نہ لگائیں؛ فصل گردش۔",
+      "source": "Sugarcane Research Institute Faisalabad (Dr M. Abdul Shakoor, PSST workshop 2022); Khaity sugarcane guide; WHO 2019 (carbendazim = Class U).",
+      "urUnverified": false
+    },
+    {
+      "id": "sugarcane-smut",
+      "crop": "sugarcane",
+      "nameEn": "Smut (whip smut)",
+      "nameUr": "گنے کی کانگی (سمٹ)",
+      "symptomsEn": [
+        "A long black whip-like shoot grows from the top of the cane, covered by a thin silvery membrane",
+        "Whip bursts and releases masses of black spores",
+        "Affected canes are stunted with thin, short internodes"
+      ],
+      "symptomsUr": [
+        "گنے کے اوپر سے لمبی کالی کوڑے جیسی شاخ نکلتی ہے جس پر پتلی چاندی جیسی جھلی ہوتی ہے",
+        "کوڑا پھٹ کر کالے بیجوں کا ڈھیر چھوڑتا ہے",
+        "متاثرہ گنے چھوٹے رہ جاتے ہیں اور ان کی گانٹھیں پتلی اور چھوٹی ہوتی ہیں"
+      ],
+      "treatmentEn": [
+        "Collect smut whips in plastic bags and rogue out diseased stools before spores burst",
+        "Treat setts with a registered fungicide (active ingredient below) per label; plant resistant varieties"
+      ],
+      "treatmentUr": [
+        "سمٹ والے کوڑے پلاسٹک کی تھیلی میں جمع کریں اور بیج پھٹنے سے پہلے متاثرہ جھنڈ اکھاڑ دیں",
+        "بیج کا رجسٹرڈ فنگس کش (نیچے فعال جزو) سے لیبل کے مطابق علاج کریں؛ مزاحم اقسام لگائیں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Propiconazole (sett treatment)",
+        "whoClass": "II",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Disease-free setts; hot-water treatment (52°C, 18 min); do not ratoon diseased crop; crop rotation.",
+      "organicAlternativeUr": "بیماری سے پاک بیج؛ گرم پانی کا علاج (52 ڈگری، 18 منٹ)؛ متاثرہ فصل کی دوبارہ کٹائی نہ کریں؛ فصل گردش۔",
+      "source": "Khaity sugarcane guide; UAF Dept of Plant Pathology (The Free Library, 2014); WHO 2019 (propiconazole = Class II).",
+      "urUnverified": false
+    },
+    {
+      "id": "sugarcane-borers",
+      "crop": "sugarcane",
+      "nameEn": "Sugarcane borers (stem / top / root borer)",
+      "nameUr": "گنے کے بورر (تنے/اوپر/جڑ کا کیڑا)",
+      "symptomsEn": [
+        "Dead heart in young shoots; central shoot dries and pulls out",
+        "Holes in the stalk with frass; internodes are bored through",
+        "Top borer causes bunchy top with many small shoots"
+      ],
+      "symptomsUr": [
+        "چھوٹی کونپلوں کا درمیانی حصہ سوکھ جاتا ہے اور نکل آتا ہے (ڈیڈ ہارٹ)",
+        "تنے میں سوراخ اور کیڑے کا فضلہ؛ گانٹھیں سوراخ شدہ",
+        "اوپر والے بورر سے اوپر گچھا بن جاتا ہے"
+      ],
+      "treatmentEn": [
+        "Apply a registered insecticide (active ingredient below) per label when dead hearts appear",
+        "Remove and destroy dead hearts; avoid ratooning heavily infested fields"
+      ],
+      "treatmentUr": [
+        "ڈیڈ ہارٹ نظر آتے ہی رجسٹرڈ کیڑے مار دوا (نیچے فعال جزو) لیبل کے مطابق استعمال کریں",
+        "سوکھے دل نکال کر تلف کریں؛ زیادہ متاثرہ کھیت کی دوبارہ کٹائی نہ کریں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Chlorantraniliprole",
+        "whoClass": "U",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Release Trichogramma; remove dead hearts by hand; balanced fertiliser; trash mulching.",
+      "organicAlternativeUr": "ٹرائیکوگراما چھوڑیں؛ سوکھے دل ہاتھ سے نکالیں؛ متوازن کھاد؛ خشک پتوں کی ملچ۔",
+      "source": "General sugarcane borer IPM guidance; WHO 2019 / COLEAD 2024 (chlorantraniliprole = Class U). Punjab-specific dose NOT verified — label only.",
+      "urUnverified": false,
+      "note": "Punjab-specific borer dose not verified — use label dose only."
+    },
+    {
+      "id": "tomato-early-blight",
+      "crop": "tomato",
+      "nameEn": "Early blight",
+      "nameUr": "ٹماٹر کا ابتدائی جھلساؤ",
+      "symptomsEn": [
+        "Dark-brown spots with concentric rings like a target board on older lower leaves",
+        "Yellow halo around spots; leaves turn yellow and drop early",
+        "Sunken dark leathery spots at the stem end of fruits"
+      ],
+      "symptomsUr": [
+        "نچلے پرانے پتوں پر نشانے جیسے گول حلقوں والے گہرے بھورے دھبے",
+        "دھبوں کے گرد پیلا حلقہ؛ پتے پیلے ہو کر جلد گر جاتے ہیں",
+        "پھل کے ڈنٹھل والے سرے پر دھنسے ہوئے گہرے چمڑے جیسے دھبے"
+      ],
+      "treatmentEn": [
+        "Spray a registered fungicide (active ingredient below) per label at 7–14 day intervals from 45 days after transplanting",
+        "Remove lower infected leaves touching the soil; keep 9-inch plant spacing for air flow"
+      ],
+      "treatmentUr": [
+        "پنیری لگانے کے 45 دن بعد سے رجسٹرڈ فنگس کش (نیچے فعال جزو) لیبل کے مطابق 7–14 دن کے وقفے سے اسپرے کریں",
+        "زمین کو چھونے والے نچلے متاثرہ پتے ہٹا دیں؛ ہوا کے لیے پودوں میں 9 انچ فاصلہ رکھیں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Mancozeb",
+        "whoClass": "U",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Disease-free seed and resistant varieties (e.g. Naqeeb, AARI Faisalabad); 3-year rotation with maize/sunflower/cucumber; Trichoderma spray.",
+      "organicAlternativeUr": "بیماری سے پاک بیج اور مزاحم اقسام (مثلاً نقیب، ایاری فیصل آباد)؛ مکئی/سورج مکھی/کھیرا کے ساتھ 3 سالہ گردش؛ ٹرائیکوڈرما اسپرے۔",
+      "source": "CABI Plantwise Knowledge Bank — Early blight of tomatoes, Pakistan (fosetyl-Al + mancozeb / difenoconazole); WHO 2019 (mancozeb = Class U).",
+      "urUnverified": false
+    },
+    {
+      "id": "tomato-fruit-borer",
+      "crop": "tomato",
+      "nameEn": "Fruit borer (Helicoverpa)",
+      "nameUr": "ٹماٹر کا پھل کا بورر",
+      "symptomsEn": [
+        "Round holes bored into fruits; caterpillar half inside, half outside the fruit",
+        "Bored fruits rot and fall; flowers and buds are also eaten",
+        "Larvae first feed on tender leaves, then move to fruits"
+      ],
+      "symptomsUr": [
+        "پھلوں میں گول سوراخ؛ سنڈی آدھی اندر آدھی باہر",
+        "سوراخ شدہ پھل سڑ کر گر جاتے ہیں؛ پھول اور کلیاں بھی کھائی جاتی ہیں",
+        "سنڈی پہلے نرم پتوں پر کھاتی ہے پھر پھلوں کی طرف جاتی ہے"
+      ],
+      "treatmentEn": [
+        "Hand-pick grown larvae; spray a registered insecticide (active ingredient below) per label at flowering/fruit set",
+        "Observe the waiting period on the label before picking fruits"
+      ],
+      "treatmentUr": [
+        "بڑی سنڈیاں ہاتھ سے چنیں؛ پھول/پھل بننے پر رجسٹرڈ دوا (نیچے فعال جزو) لیبل کے مطابق اسپرے کریں",
+        "پھل توڑنے سے پہلے لیبل پر درج انتظار کی مدت پوری کریں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Emamectin benzoate",
+        "whoClass": "II",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Trichogramma releases; NPV spray; Bt spray; marigold as trap crop; neem extract.",
+      "organicAlternativeUr": "ٹرائیکوگراما چھوڑیں؛ این پی وی اسپرے؛ بی ٹی اسپرے؛ گیندے کا پودا جال فصل کے طور پر؛ نیم کا عرق۔",
+      "source": "Apni Kheti tomato guide (Helicoverpa, 22–37% loss); WHO 2019 (emamectin benzoate = Class II).",
+      "urUnverified": false
+    },
+    {
+      "id": "tomato-leaf-curl",
+      "crop": "tomato",
+      "nameEn": "Leaf curl virus (tomato/chilli)",
+      "nameUr": "ٹماٹر/مرچ کا پتہ مڑنے والا وائرس",
+      "symptomsEn": [
+        "Leaves roll downward and crinkle; new leaves turn yellowish",
+        "Older leaves become leathery and brittle",
+        "Plants are stunted and bear few fruits"
+      ],
+      "symptomsUr": [
+        "پتے نیچے کی طرف مڑ کر سکڑ جاتے ہیں؛ نئے پتے پیلے پڑ جاتے ہیں",
+        "پرانے پتے چمڑے جیسے اور نازک ہو جاتے ہیں",
+        "پودے چھوٹے رہ جاتے ہیں اور کم پھل دیتے ہیں"
+      ],
+      "treatmentEn": [
+        "No spray cures the virus. Control the whitefly vector with a registered insecticide (active ingredient below) per label",
+        "Uproot and destroy affected plants; use yellow sticky traps to monitor whitefly"
+      ],
+      "treatmentUr": [
+        "وائرس کا کوئی اسپرے علاج نہیں۔ سفید مکھی کو رجسٹرڈ دوا (نیچے فعال جزو) سے لیبل کے مطابق کنٹرول کریں",
+        "متاثرہ پودے اکھاڑ کر تلف کریں؛ سفید مکھی کی نگرانی کے لیے پیلے چپچپے ٹریپ لگائیں"
+      ],
+      "pesticide": {
+        "activeIngredient": "Pyriproxyfen (for whitefly vector only)",
+        "whoClass": "U",
+        "phiDays": null,
+        "reentryHours": null,
+        "ppeEn": [
+          "Long-sleeved shirt and long trousers",
+          "Chemical-resistant gloves",
+          "Eye protection (goggles)",
+          "Face mask / respirator as per label",
+          "Closed shoes / boots",
+          "Wash hands and face with soap after spraying"
+        ],
+        "ppeUr": [
+          "لمبی آستین والی قمیض اور لمبی شلوار/پتلون",
+          "کیمیائی مزاحم دستانے",
+          "آنکھوں کی حفاظت (عینک)",
+          "لیبل کے مطابق ماسک",
+          "بند جوتے / بوٹ",
+          "اسپرے کے بعد ہاتھ اور منہ صابن سے دھوئیں"
+        ],
+        "firstAidEn": "Move the person to fresh air. Remove contaminated clothing and wash skin with plenty of soap and water. If in eyes, rinse with clean water for at least 15 minutes. If swallowed, do NOT induce vomiting. Take the product label/container with you and seek a doctor immediately.",
+        "firstAidUr": "متاثرہ شخص کو تازہ ہوا میں لے جائیں۔ آلودہ کپڑے اتار کر جلد کو صابن اور بہت سے پانی سے دھوئیں۔ آنکھوں میں پڑ جائے تو کم از کم 15 منٹ صاف پانی سے دھوئیں۔ اگر نگل لیا ہو تو قے نہ کروائیں۔ لیبل/ڈبہ ساتھ لے کر فوراً ڈاکٹر سے رجوع کریں۔"
+      },
+      "organicAlternativeEn": "Resistant varieties; yellow sticky traps; remove weed hosts; rogue infected plants.",
+      "organicAlternativeUr": "مزاحم اقسام؛ پیلے چپچپے ٹریپ؛ جڑی بوٹیوں کے میزبان ختم کریں؛ متاثرہ پودے اکھاڑ دیں۔",
+      "source": "Apni Kheti / general tomato leaf-curl guidance (whitefly-transmitted; roguing); WHO 2019 (pyriproxyfen = Class U).",
+      "urUnverified": false,
+      "note": "Virus — no chemical cure. The pesticide listed controls only the whitefly vector."
+    }
+  ]
+}
