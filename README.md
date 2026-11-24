@@ -59,6 +59,48 @@ deadline: **Mon Nov 10, 2026, 2:00 PM PT** (Round 1 close — verified
   the UI is Urdu, `en-US` in English) so farmers who cannot type can ask by
   speaking. Shown only where the browser supports it; permission denial is
   reported, typing still works.
+- **Photo diagnosis (new)** — upload a photo of the affected plant; Gemini
+  vision (`gemini-3.8-flash`, same 8s / 2-attempt / 0.5s-backoff budget)
+  identifies the disease as strict JSON. Confidence is low/medium/high
+  only — never a percentage. The photo is processed in memory and never
+  stored. Without a `GEMINI_API_KEY` (or when Gemini fails) the answer is
+  an honest "unavailable" with HTTP 200 — never a faked diagnosis. **This
+  is AI-assisted identification, NOT a lab test** — the UI and the API
+  response both say so, and the farmer is told to confirm with the
+  district agriculture office or a plant clinic before spraying.
+  See `lib/diagnose.ts`, `/api/diagnose`.
+- **Symptom checker (new)** — tick the symptoms you see for wheat, rice,
+  maize, cotton, sugarcane or tomato; 22 verified diseases are ranked by
+  matched-symptom count, each with treatment, organic alternative and the
+  pesticide safety block. No accuracy percentage is claimed anywhere.
+  See `lib/symptoms.ts`, `/api/symptoms`.
+- **Pesticide safety (new)** — "zehreeli dawa": the DPP/PARC banned list
+  (with the "confirm with your district agriculture office" caveat),
+  the Punjab 2025 paddy-only ban (12 named of 13 — the 13th name could
+  not be verified and is not invented), fake/expired checks, storage,
+  disposal and child/animal safety, and a per-disease safety block with
+  the WHO class + colour band (Ia/Ib red, II yellow, III blue, U green).
+  PHI and re-entry are **null for all 22 diseases** — the UI always shows
+  "label ke mutabiq" (per label) and never a number. Virus entries
+  (cotton/tomato leaf curl) state there is no chemical cure — the
+  pesticide controls only the whitefly vector. See `lib/safety.ts`,
+  `/api/safety`.
+- **Fertilizer calculator (new)** — Punjab Agriculture Department doses:
+  bags (50 kg) per crop and acres, whole bags rounded up. Wheat bags are
+  quoted from the department's Nov 2026 advisory; other crops are
+  calculated from the department's N-P-K ranges. Where no soil test is
+  given (or no verified soil-adjustment rule exists) the standard dose is
+  used and labelled **standard-dose**. **Tomato has no verified Punjab
+  dose — the calculator refuses it and says so.** See
+  `lib/fertilizer.ts`, `/api/fertilizer`.
+- **Spray window (new)** — best spraying hours in the next 48h from the
+  live Open-Meteo hourly forecast: rain chance < 20%, wind < 15 km/h,
+  rain < 0.1 mm (thresholds stated in code, API and UI), plus a day-level
+  guide from the daily forecast. See `lib/spray.ts`, `/api/spray`.
+- **Seasonal watch (new)** — this month's pest/disease reminders from the
+  Punjab cropping calendar; general-guidance entries are labelled as a
+  reminder to scout, not a forecast. See `lib/seasonal.ts`,
+  `/api/seasonal`.
 - **Agent layer** — Gemini-primary (`gemini-3.8-flash`, `x-goog-api-key`
   header, retry with backoff on 503/429, same pattern as PayPerPrompt). The
   prompt is grounded strictly on the tool results: cite every figure, say
@@ -81,6 +123,11 @@ deadline: **Mon Nov 10, 2026, 2:00 PM PT** (Round 1 close — verified
 | Market prices | **REFERENCE** (published 2–3 Nov 2026) | AMIS Punjab mandi reports (via Zarat Ghar) |
 | Yield forecast | **BASELINE** (trend model, method shown) | FAO/OWID Pakistan yield series 1961–2024 |
 | Crop calendar | Standard guidance | Punjab crop calendar (PARC/UAF guidance) |
+| Crop diseases (22) | **VERIFIED DATASET** (Nov 2026) | Punjab Agriculture Department / WRI, RRI, CCRI guidance; WHO 2019 pesticide classes |
+| Pesticide safety / banned list | **VERIFIED DATASET** (Nov 2026) | DPP/PARC banned list (2013/2018); FAO/CropLife counterfeit guidance; WHO 2019 |
+| Fertilizer doses | **VERIFIED DATASET** (Nov 2026) | Punjab Agriculture Department N-P-K (Nov 2026 advisory + kg/ha ranges); SBP 2020 cross-check |
+| Seasonal watch | **VERIFIED DATASET** (Nov 2026) | Punjab cropping calendar + pest timing from the disease sources |
+| Spray window (hourly) | **LIVE** | Open-Meteo hourly forecast |
 
 Honesty rules: a failed live source is reported as unavailable — the answer
 never invents weather or soil. No accuracy number, pilot result, or
@@ -91,7 +138,7 @@ testimonial is claimed anywhere.
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm test           # vitest, 63 tests
+npm test           # vitest, 124 tests
 npm run build      # must pass with zero errors
 npm start          # production server
 ```
@@ -131,6 +178,19 @@ same: tool-calling, read-only, cited answers, deterministic fallback.
 - Yield forecasts are national averages; district yields differ.
 - The yield model covers wheat, rice, and maize only (FAO/OWID series).
   Cotton and sugarcane have no forecast — the app says so.
+- Photo diagnosis is AI-assisted, NOT a lab test — confirm with the
+  district agriculture office or a plant clinic before spraying. It needs
+  a `GEMINI_API_KEY`; without one it reports honestly as unavailable and
+  the symptom checker still works. Confidence is low/medium/high only.
+- Pesticide PHI and re-entry intervals are unverified for every product —
+  the app shows "label ke mutabiq" (per label) and never a number. The
+  banned list rests on the 2013 DPP list / PARC 2018 handbook; the live
+  DPP register was not directly accessible — confirm with your district
+  agriculture office.
+- No tomato fertilizer dose is verified — the calculator refuses tomato
+  rather than guessing. Virus diseases (cotton/tomato leaf curl) have no
+  chemical cure; the pesticide listed controls only the whitefly vector.
+- No accuracy or efficacy percentage is claimed anywhere in the app.
 - Backtest honesty note: the trend beats both simple baselines for wheat
   and maize on 2020–2024, but for rice the 5-year average (MAE 0.121)
   beats the trend (MAE 0.168). All three numbers are shown; no baseline is
