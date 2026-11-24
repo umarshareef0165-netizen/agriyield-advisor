@@ -121,6 +121,39 @@ const STR: Record<
     planImageError:
       "تصویر ابھی نہیں بن سکی — اس کے لیے Firebase پروجیکٹ اور کوٹہ چاہیے۔",
     planImageDownload: "تصویر ڈاؤن لوڈ کریں",
+    diagTitle: "تصویر سے بیماری کی شناخت",
+    diagDesc:
+      "متاثرہ پودے کی واضح تصویر لگائیں — AI مدد سے شناخت بتائے گا۔ یہ لیب ٹیسٹ نہیں ہے۔",
+    diagUpload: "تصویر چنیں",
+    diagBtn: "تصویر سے شناخت کریں",
+    diagWorking: "تصویر دیکھی جا رہی ہے…",
+    symTitle: "علامات چیکر — بیماری پہچانیں",
+    symDesc:
+      "فصل چنیں، جو علامات نظر آئیں ان پر نشان لگائیں — مماثل بیماریاں ترتیب سے ملیں گی۔",
+    symBtn: "بیماریاں دیکھیں",
+    symWorking: "ملان ہو رہا ہے…",
+    symNone: "کوئی بیماری ان علامات سے نہیں ملی — تصویر سے شناخت آزمائیں یا زرعی دفتر سے پوچھیں۔",
+    safetyTitle: "زہریلی دوا — حفاظت پہلے",
+    safetyBanned: "ممنوعہ دوائیں (پاکستان)",
+    safetyPaddy: "دھان پر پابندی (پنجاب، 2025)",
+    safetyFake: "جعلی دوا کیسے پہچانیں",
+    safetyStorage: "ذخیرہ اور تلفی",
+    safetyChild: "بچے اور جانور",
+    fertTitle: "کھاد کیلکولیٹر",
+    fertAcres: "ایکڑ",
+    fertBtn: "کھاد دیکھیں",
+    fertWorking: "حساب ہو رہا ہے…",
+    sprayTitle: "اسپرے کا بہترین وقت — اگلے 48 گھنٹے",
+    sprayBtn: "اسپرے کا وقت دیکھیں",
+    sprayWorking: "موسم دیکھا جا رہا ہے…",
+    sprayNone: "اگلے 48 گھنٹوں میں کوئی موزوں گھنٹہ نہیں — خشک، پرسکون وقت کا انتظار کریں۔",
+    seasonalTitle: "موسمی نگرانی — اس مہینے کیا دیکھیں",
+    perLabel: "لیبل کے مطابق",
+    noCure: "اس کا کوئی کیمیائی علاج نہیں — دوا صرف کیڑے (وائرس پھیلانے والے) کو کنٹرول کرتی ہے۔",
+    confidence: "اعتماد",
+    treatment: "علاج",
+    organic: "دیسی / نامیاتی متبادل",
+    matched: "مماثل علامات",
     property: "خاصیت",
     value: "قدر",
     aboutTitle: "اس ایپ کے بارے میں",
@@ -187,6 +220,39 @@ const STR: Record<
     planImageError:
       "The picture could not be made yet — it needs a Firebase project and quota.",
     planImageDownload: "Download the picture",
+    diagTitle: "Photo diagnosis — identify the disease",
+    diagDesc:
+      "Upload a clear photo of the affected plant — AI-assisted identification. This is NOT a lab test.",
+    diagUpload: "Choose a photo",
+    diagBtn: "Diagnose from photo",
+    diagWorking: "Looking at the photo…",
+    symTitle: "Symptom checker — identify the disease",
+    symDesc:
+      "Pick a crop, tick the symptoms you see — matching diseases are ranked.",
+    symBtn: "Show matching diseases",
+    symWorking: "Matching…",
+    symNone: "No disease matches those symptoms — try photo diagnosis or ask the agriculture office.",
+    safetyTitle: "Pesticide safety — safety first",
+    safetyBanned: "Banned pesticides (Pakistan)",
+    safetyPaddy: "Paddy ban (Punjab, 2025)",
+    safetyFake: "How to spot a fake pesticide",
+    safetyStorage: "Storage & disposal",
+    safetyChild: "Children & animals",
+    fertTitle: "Fertilizer calculator",
+    fertAcres: "Acres",
+    fertBtn: "Calculate fertilizer",
+    fertWorking: "Calculating…",
+    sprayTitle: "Best spray time — next 48 hours",
+    sprayBtn: "Show spray window",
+    sprayWorking: "Checking the weather…",
+    sprayNone: "No suitable hour in the next 48 hours — wait for a dry, calm slot.",
+    seasonalTitle: "Seasonal watch — what to check this month",
+    perLabel: "per label",
+    noCure: "There is NO chemical cure for this — the pesticide controls only the insect vector.",
+    confidence: "Confidence",
+    treatment: "Treatment",
+    organic: "Organic alternative",
+    matched: "Matched symptoms",
     property: "Property",
     value: "Value",
     aboutTitle: "About this app",
@@ -231,6 +297,124 @@ function playPcm(
   };
 }
 
+interface DiagApi {
+  available: boolean;
+  reasonEn?: string;
+  reasonUr?: string;
+  source?: string;
+  diagnosis?: {
+    diseaseEn: string;
+    diseaseUr: string;
+    confidence: string;
+    symptomsObserved: string[];
+    treatment: string[];
+    pesticide: {
+      activeIngredient: string;
+      whoClass: string;
+      ppe: string[];
+      firstAid: string;
+    };
+    organicAlternative: string;
+    disclaimer: string;
+  };
+}
+
+interface SymptomOption {
+  id: string;
+  diseaseId: string;
+  textEn: string;
+  textUr: string;
+}
+
+interface SymptomMatchApi {
+  diseaseId: string;
+  nameEn: string;
+  nameUr: string;
+  matchedCount: number;
+  totalSymptoms: number;
+  matchedSymptomsEn: string[];
+  treatmentEn: string[];
+  treatmentUr: string[];
+  organicAlternativeEn: string;
+  organicAlternativeUr: string;
+  pesticide: {
+    activeIngredient: string;
+    whoClass: string;
+    ppeEn: string[];
+    firstAidEn: string;
+    firstAidUr: string;
+  };
+  note: string | null;
+  source: string;
+}
+
+interface FertApi {
+  available: boolean;
+  reasonEn?: string;
+  reasonUr?: string;
+  ureaBags?: number;
+  dapBags?: number;
+  mopBags?: number;
+  basis?: string;
+  standardCase?: string;
+  timing?: string | null;
+  source?: string;
+  soilNoteEn?: string;
+  soilNoteUr?: string;
+}
+
+interface SprayApi {
+  hourly: {
+    windows: Array<{ start: string; end: string; hours: number }>;
+    best: { start: string; end: string; hours: number } | null;
+    method: string;
+    suitableHours: number;
+    hoursChecked: number;
+  } | null;
+  hourlyError?: string;
+  dayGuide: {
+    bestDay?: string | null;
+    bestDaySuitable?: boolean;
+    recommendedHours?: string;
+    reasonEn?: string;
+    reasonUr?: string;
+    error?: string;
+  } | null;
+}
+
+interface SeasonalApi {
+  monthEn: string;
+  monthUr: string;
+  entries: Array<{
+    crop: string;
+    pestOrDisease: string;
+    watchEn: string;
+    watchUr: string;
+    generalGuidance: boolean;
+  }>;
+}
+
+interface SafetyApi {
+  banned: Array<{ activeIngredient: string; source: string; status: string }>;
+  bannedCaveatEn: string;
+  bannedCaveatUr: string;
+  paddyBanPunjab2025: {
+    activeIngredients: string[];
+    scope: string;
+    note: string;
+    source: string;
+  };
+  fakeChecks: { en: string[]; ur: string[] };
+  storage: { en: string[]; ur: string[] };
+  disposal: { en: string[]; ur: string[] };
+  childAnimalSafety: { en: string[]; ur: string[] };
+}
+
+const SYMPTOM_CROPS: Array<{ key: string; ur: string; en: string }> = [
+  ...CROPS,
+  { key: "tomato", ur: "ٹماٹر", en: "Tomato" },
+];
+
 export default function Home() {
   const [lang, setLang] = useState<Lang>("ur");
   const [district, setDistrict] = useState("faisalabad");
@@ -264,13 +448,55 @@ export default function Home() {
     "idle" | "working" | "done" | "error"
   >("idle");
   const [planImageError, setPlanImageError] = useState<string | null>(null);
+  // Photo diagnosis + symptom checker + safety + fertilizer + spray + seasonal.
+  const fileRef = useRef<HTMLInputElement | null>(null);
+  const [diagLoading, setDiagLoading] = useState(false);
+  const [diagResult, setDiagResult] = useState<DiagApi | null>(null);
+  const [diagError, setDiagError] = useState<string | null>(null);
+  const [symCrop, setSymCrop] = useState("wheat");
+  const [symOptions, setSymOptions] = useState<SymptomOption[]>([]);
+  const [symSelected, setSymSelected] = useState<string[]>([]);
+  const [symMatches, setSymMatches] = useState<SymptomMatchApi[] | null>(null);
+  const [symLoading, setSymLoading] = useState(false);
+  const [safety, setSafety] = useState<SafetyApi | null>(null);
+  const [fertCrop, setFertCrop] = useState("wheat");
+  const [fertAcres, setFertAcres] = useState("5");
+  const [fertSoilN, setFertSoilN] = useState("");
+  const [fertSoilPh, setFertSoilPh] = useState("");
+  const [fertResult, setFertResult] = useState<FertApi | null>(null);
+  const [fertLoading, setFertLoading] = useState(false);
+  const [sprayResult, setSprayResult] = useState<SprayApi | null>(null);
+  const [sprayLoading, setSprayLoading] = useState(false);
+  const [sprayError, setSprayError] = useState<string | null>(null);
+  const [seasonMonth, setSeasonMonth] = useState(() => new Date().getMonth() + 1);
+  const [seasonal, setSeasonal] = useState<SeasonalApi | null>(null);
 
   useEffect(() => {
     // Mount-only feature detection: SpeechRecognition exists only in the
     // browser, so support cannot be known at SSR time. One setState, once.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMicSupported(speechRecognitionCtor() !== null);
+    // Pesticide safety guide (local verified dataset) — loaded once.
+    void fetch("/api/safety")
+      .then((r) => r.json())
+      .then((d) => setSafety(d as SafetyApi))
+      .catch(() => undefined);
   }, []);
+
+  useEffect(() => {
+    // Symptom list for the chosen crop.
+    void fetch(`/api/symptoms?crop=${symCrop}`)
+      .then((r) => r.json())
+      .then((d) => setSymOptions((d.symptoms ?? []) as SymptomOption[]))
+      .catch(() => setSymOptions([]));
+  }, [symCrop]);
+
+  useEffect(() => {
+    void fetch(`/api/seasonal?month=${seasonMonth}`)
+      .then((r) => r.json())
+      .then((d) => setSeasonal(d as SeasonalApi))
+      .catch(() => setSeasonal(null));
+  }, [seasonMonth]);
 
   function listen() {
     const Ctor = speechRecognitionCtor();
@@ -316,6 +542,86 @@ export default function Home() {
       setError((e as Error).message);
     } finally {
       setCompareLoading(false);
+    }
+  }
+
+  async function diagnose() {
+    const file = fileRef.current?.files?.[0];
+    if (!file) {
+      setDiagError(
+        lang === "ur"
+          ? "پہلے تصویر چنیں۔"
+          : "Choose a photo first.",
+      );
+      return;
+    }
+    setDiagLoading(true);
+    setDiagError(null);
+    setDiagResult(null);
+    try {
+      const form = new FormData();
+      form.append("file", file);
+      form.append("crop", crop);
+      form.append("district", district);
+      const res = await fetch("/api/diagnose", { method: "POST", body: form });
+      const data = (await res.json()) as DiagApi;
+      if (!res.ok) throw new Error(data.reasonEn ?? t.failed);
+      setDiagResult(data);
+    } catch (e) {
+      setDiagError((e as Error).message);
+    } finally {
+      setDiagLoading(false);
+    }
+  }
+
+  async function checkSymptoms() {
+    if (symSelected.length === 0) return;
+    setSymLoading(true);
+    try {
+      const res = await fetch(
+        `/api/symptoms?crop=${symCrop}&symptoms=${encodeURIComponent(symSelected.join(","))}`,
+      );
+      const data = await res.json();
+      setSymMatches((data.matches ?? []) as SymptomMatchApi[]);
+    } catch {
+      setSymMatches([]);
+    } finally {
+      setSymLoading(false);
+    }
+  }
+
+  async function calcFertilizer() {
+    setFertLoading(true);
+    try {
+      const q = new URLSearchParams({ crop: fertCrop, acres: fertAcres });
+      if (fertSoilN) q.set("soilN", fertSoilN);
+      if (fertSoilPh) q.set("soilPh", fertSoilPh);
+      const res = await fetch(`/api/fertilizer?${q.toString()}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? t.failed);
+      setFertResult(data as FertApi);
+    } catch (e) {
+      setFertResult({
+        available: false,
+        reasonEn: (e as Error).message,
+        reasonUr: (e as Error).message,
+      });
+    } finally {
+      setFertLoading(false);
+    }
+  }
+
+  async function loadSpray() {
+    setSprayLoading(true);
+    setSprayError(null);
+    try {
+      const res = await fetch(`/api/spray?district=${district}`);
+      const data = await res.json();
+      setSprayResult(data as SprayApi);
+    } catch (e) {
+      setSprayError((e as Error).message);
+    } finally {
+      setSprayLoading(false);
     }
   }
 
@@ -942,6 +1248,470 @@ export default function Home() {
         )}
 
         <section className="card">
+          <h2>{t.diagTitle}</h2>
+          <p className="muted">{t.diagDesc}</p>
+          <div className="row">
+            <div>
+              <label htmlFor="diag-crop">{t.crop}</label>
+              <select
+                id="diag-crop"
+                value={crop}
+                onChange={(e) => setCrop(e.target.value as CropKey)}
+              >
+                {CROPS.map((c) => (
+                  <option key={c.key} value={c.key}>
+                    {lang === "ur" ? c.ur : c.en}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="diag-district">{t.district}</label>
+              <select
+                id="diag-district"
+                value={district}
+                onChange={(e) => setDistrict(e.target.value)}
+              >
+                {DISTRICTS.map((d) => (
+                  <option key={d.slug} value={d.slug}>
+                    {lang === "ur" ? d.nameUr : d.nameEn}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <label htmlFor="diag-file">{t.diagUpload}</label>
+          <input
+            id="diag-file"
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            style={{ display: "block", margin: "6px 0 12px" }}
+          />
+          <button className="ask" disabled={diagLoading} onClick={diagnose}>
+            {diagLoading ? t.diagWorking : t.diagBtn}
+          </button>
+          {diagError && <p className="error">{diagError}</p>}
+          {diagResult && !diagResult.available && (
+            <div className="warn-box">
+              {lang === "ur" ? diagResult.reasonUr : diagResult.reasonEn}
+            </div>
+          )}
+          {diagResult?.available && diagResult.diagnosis && (
+            <div>
+              <h3>
+                {lang === "ur"
+                  ? diagResult.diagnosis.diseaseUr
+                  : diagResult.diagnosis.diseaseEn}
+              </h3>
+              <p>
+                <strong>{t.confidence}:</strong>{" "}
+                {diagResult.diagnosis.confidence}
+                <span className="muted">
+                  {" "}
+                  —{" "}
+                  {lang === "ur"
+                    ? "فیصد نہیں، صرف کم / درمیانہ / زیادہ"
+                    : "never a percentage, only low / medium / high"}
+                </span>
+              </p>
+              <p>
+                <strong>{t.treatment}:</strong>
+              </p>
+              <ul className="cites">
+                {diagResult.diagnosis.treatment.map((s, i) => (
+                  <li key={i}>{s}</li>
+                ))}
+              </ul>
+              <p>
+                <strong>
+                  {lang === "ur" ? "فعال جزو" : "Active ingredient"}:
+                </strong>{" "}
+                {diagResult.diagnosis.pesticide.activeIngredient} (WHO{" "}
+                {diagResult.diagnosis.pesticide.whoClass}) —{" "}
+                {lang === "ur" ? "کٹائی سے پہلے کا وقفہ" : "Pre-harvest interval"}
+                : {t.perLabel};{" "}
+                {lang === "ur" ? "دوبارہ داخلہ" : "Re-entry"}: {t.perLabel}
+              </p>
+              <p>
+                <strong>{t.organic}:</strong>{" "}
+                {diagResult.diagnosis.organicAlternative}
+              </p>
+              <div className="warn-box">
+                {lang === "ur"
+                  ? "صرف تصویر سے AI کی مدد سے شناخت — یہ لیب ٹیسٹ نہیں ہے۔ اسپرے سے پہلے اپنے ضلعی زرعی دفتر یا پلانٹ کلینک سے تصدیق کریں۔"
+                  : "AI-assisted identification from a photo only — NOT a lab test. Confirm with your district agriculture office or a plant clinic before spraying."}
+              </div>
+              <p className="muted">
+                {lang === "ur" ? "ماخذ" : "Source"}: Gemini ({diagResult.source}
+                ) — {diagResult.diagnosis.disclaimer}
+              </p>
+            </div>
+          )}
+          <p className="muted">
+            {lang === "ur"
+              ? "تصویر سرور پر محفوظ نہیں ہوتی — صرف اسی وقت دیکھی جاتی ہے۔ زیادہ سے زیادہ 5 MB۔"
+              : "The photo is never stored on the server — it is processed in memory only. Maximum 5 MB."}
+          </p>
+        </section>
+
+        <section className="card">
+          <h2>{t.symTitle}</h2>
+          <p className="muted">{t.symDesc}</p>
+          <label htmlFor="sym-crop">{t.crop}</label>
+          <select
+            id="sym-crop"
+            value={symCrop}
+            onChange={(e) => {
+              setSymCrop(e.target.value);
+              setSymSelected([]);
+              setSymMatches(null);
+            }}
+          >
+            {SYMPTOM_CROPS.map((c) => (
+              <option key={c.key} value={c.key}>
+                {lang === "ur" ? c.ur : c.en}
+              </option>
+            ))}
+          </select>
+          <div style={{ marginTop: 10 }}>
+            {symOptions.map((s) => (
+              <label key={s.id} style={{ display: "block", margin: "4px 0" }}>
+                <input
+                  type="checkbox"
+                  checked={symSelected.includes(s.id)}
+                  onChange={(e) =>
+                    setSymSelected((prev) =>
+                      e.target.checked
+                        ? [...prev, s.id]
+                        : prev.filter((x) => x !== s.id),
+                    )
+                  }
+                />{" "}
+                {lang === "ur" ? s.textUr : s.textEn}
+              </label>
+            ))}
+          </div>
+          <button
+            className="ask"
+            disabled={symLoading || symSelected.length === 0}
+            onClick={checkSymptoms}
+          >
+            {symLoading ? t.symWorking : t.symBtn}
+          </button>
+          {symMatches !== null && symMatches.length === 0 && (
+            <div className="warn-box">{t.symNone}</div>
+          )}
+          {symMatches?.map((m) => (
+            <div key={m.diseaseId} style={{ marginTop: 12 }}>
+              <h3>
+                {lang === "ur" ? m.nameUr : m.nameEn}{" "}
+                <span className="muted">
+                  ({t.matched}: {m.matchedCount}/{m.totalSymptoms})
+                </span>
+              </h3>
+              {m.note && (
+                <div className="warn-box">
+                  {lang === "ur" ? t.noCure : m.note}
+                </div>
+              )}
+              <ul className="cites">
+                {(lang === "ur" ? m.treatmentUr : m.treatmentEn).map((s, i) => (
+                  <li key={i}>{s}</li>
+                ))}
+              </ul>
+              <p>
+                <strong>
+                  {lang === "ur" ? "فعال جزو" : "Active ingredient"}:
+                </strong>{" "}
+                {m.pesticide.activeIngredient} (WHO {m.pesticide.whoClass}) —{" "}
+                {lang === "ur" ? "کٹائی سے پہلے کا وقفہ" : "Pre-harvest interval"}
+                : {t.perLabel};{" "}
+                {lang === "ur" ? "دوبارہ داخلہ" : "Re-entry"}: {t.perLabel}
+              </p>
+              <p>
+                <strong>{t.organic}:</strong>{" "}
+                {lang === "ur" ? m.organicAlternativeUr : m.organicAlternativeEn}
+              </p>
+              <p className="muted">
+                {lang === "ur" ? "ماخذ" : "Source"}: {m.source}
+              </p>
+            </div>
+          ))}
+          <p className="muted">
+            {lang === "ur"
+              ? "ترتیب صرف مماثل علامات کی تعداد سے ہے — کوئی درستگی کا فیصد دعویٰ نہیں کیا جاتا۔"
+              : "Ranked by the count of matched symptoms only — no accuracy percentage is claimed."}
+          </p>
+        </section>
+
+        <section className="card">
+          <h2>{t.safetyTitle}</h2>
+          {safety ? (
+            <>
+              <h3>{t.safetyBanned}</h3>
+              <p className="muted">
+                {lang === "ur" ? safety.bannedCaveatUr : safety.bannedCaveatEn}
+              </p>
+              <ul className="cites">
+                {safety.banned.map((b) => (
+                  <li key={b.activeIngredient}>
+                    <strong>{b.activeIngredient}</strong> — {b.status}
+                  </li>
+                ))}
+              </ul>
+              <h3>{t.safetyPaddy}</h3>
+              <p>
+                {safety.paddyBanPunjab2025.activeIngredients.join(", ")}
+              </p>
+              <p className="muted">
+                {safety.paddyBanPunjab2025.scope} —{" "}
+                {safety.paddyBanPunjab2025.note}
+              </p>
+              <h3>{t.safetyFake}</h3>
+              <ul className="cites">
+                {(lang === "ur" ? safety.fakeChecks.ur : safety.fakeChecks.en).map(
+                  (s, i) => (
+                    <li key={i}>{s}</li>
+                  ),
+                )}
+              </ul>
+              <h3>{t.safetyStorage}</h3>
+              <ul className="cites">
+                {(lang === "ur" ? safety.storage.ur : safety.storage.en).map(
+                  (s, i) => (
+                    <li key={i}>{s}</li>
+                  ),
+                )}
+                {(lang === "ur" ? safety.disposal.ur : safety.disposal.en).map(
+                  (s, i) => (
+                    <li key={i}>{s}</li>
+                  ),
+                )}
+              </ul>
+              <h3>{t.safetyChild}</h3>
+              <ul className="cites">
+                {(lang === "ur"
+                  ? safety.childAnimalSafety.ur
+                  : safety.childAnimalSafety.en
+                ).map((s, i) => (
+                  <li key={i}>{s}</li>
+                ))}
+              </ul>
+              <p className="muted">
+                {lang === "ur" ? "ماخذ" : "Source"}: DPP / PARC (2013/2018) —
+                WHO 2019 — FAO/CropLife
+              </p>
+            </>
+          ) : (
+            <p className="muted">
+              {lang === "ur" ? "حفاظتی معلومات لوڈ ہو رہی ہیں…" : "Loading safety guide…"}
+            </p>
+          )}
+        </section>
+
+        <section className="card">
+          <h2>{t.fertTitle}</h2>
+          <div className="row">
+            <div>
+              <label htmlFor="fert-crop">{t.crop}</label>
+              <select
+                id="fert-crop"
+                value={fertCrop}
+                onChange={(e) => setFertCrop(e.target.value)}
+              >
+                {CROPS.map((c) => (
+                  <option key={c.key} value={c.key}>
+                    {lang === "ur" ? c.ur : c.en}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="fert-acres">{t.fertAcres}</label>
+              <input
+                id="fert-acres"
+                type="number"
+                min={0.1}
+                step={0.5}
+                value={fertAcres}
+                onChange={(e) => setFertAcres(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div>
+              <label htmlFor="fert-n">
+                {lang === "ur" ? "مٹی کی نائٹروجن (اختیاری)" : "Soil N (optional)"}
+              </label>
+              <input
+                id="fert-n"
+                type="number"
+                value={fertSoilN}
+                placeholder="—"
+                onChange={(e) => setFertSoilN(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="fert-ph">
+                {lang === "ur" ? "مٹی کی pH (اختیاری)" : "Soil pH (optional)"}
+              </label>
+              <input
+                id="fert-ph"
+                type="number"
+                step={0.1}
+                value={fertSoilPh}
+                placeholder="—"
+                onChange={(e) => setFertSoilPh(e.target.value)}
+              />
+            </div>
+          </div>
+          <button className="ask" disabled={fertLoading} onClick={calcFertilizer}>
+            {fertLoading ? t.fertWorking : t.fertBtn}
+          </button>
+          {fertResult && !fertResult.available && (
+            <div className="warn-box">
+              {lang === "ur" ? fertResult.reasonUr : fertResult.reasonEn}
+            </div>
+          )}
+          {fertResult?.available && (
+            <div>
+              <table className="data">
+                <tbody>
+                  <tr>
+                    <td>Urea (50 kg {lang === "ur" ? "بوری" : "bags"})</td>
+                    <td>{fertResult.ureaBags}</td>
+                  </tr>
+                  <tr>
+                    <td>DAP (50 kg {lang === "ur" ? "بوری" : "bags"})</td>
+                    <td>{fertResult.dapBags}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      {lang === "ur" ? "پوٹاش SOP/MOP (50 کلو بوری)" : "Potash SOP/MOP (50 kg bags)"}
+                    </td>
+                    <td>{fertResult.mopBags}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p>
+                <strong>
+                  {lang === "ur" ? "بنیاد" : "Basis"}:
+                </strong>{" "}
+                {lang === "ur"
+                  ? "معیاری خوراک"
+                  : "standard-dose"}{" "}
+                — {fertResult.standardCase}
+              </p>
+              {fertResult.timing && <p className="muted">{fertResult.timing}</p>}
+              <p className="muted">
+                {lang === "ur" ? fertResult.soilNoteUr : fertResult.soilNoteEn}
+              </p>
+              <p className="muted">
+                {lang === "ur" ? "ماخذ" : "Source"}: {fertResult.source}
+              </p>
+            </div>
+          )}
+        </section>
+
+        <section className="card">
+          <h2>{t.sprayTitle}</h2>
+          <p className="muted">
+            {lang === "ur"
+              ? "موزوں گھنٹہ: بارش کا امکان 20٪ سے کم، ہوا 15 کلومیٹر/گھنٹہ سے کم، بارش 0.1 ملی میٹر سے کم۔ ماخذ: Open-Meteo گھنٹہ وار پیش گوئی۔"
+              : "Suitable hour: rain chance < 20%, wind < 15 km/h, rain < 0.1 mm. Source: Open-Meteo hourly forecast."}
+          </p>
+          <button className="ask" disabled={sprayLoading} onClick={loadSpray}>
+            {sprayLoading ? t.sprayWorking : t.sprayBtn}
+          </button>
+          {sprayError && <p className="error">{sprayError}</p>}
+          {sprayResult?.hourlyError && (
+            <div className="warn-box">{sprayResult.hourlyError}</div>
+          )}
+          {sprayResult?.hourly && sprayResult.hourly.windows.length === 0 && (
+            <div className="warn-box">{t.sprayNone}</div>
+          )}
+          {sprayResult?.hourly && sprayResult.hourly.windows.length > 0 && (
+            <table className="data">
+              <thead>
+                <tr>
+                  <th>{lang === "ur" ? "شروع" : "Start"}</th>
+                  <th>{lang === "ur" ? "ختم" : "End"}</th>
+                  <th>{lang === "ur" ? "گھنٹے" : "Hours"}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sprayResult.hourly.windows.map((w) => (
+                  <tr key={w.start}>
+                    <td>{w.start.replace("T", " ")}</td>
+                    <td>{w.end.replace("T", " ")}</td>
+                    <td>{w.hours}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+          {sprayResult?.hourly && (
+            <p className="muted">
+              {sprayResult.hourly.method} —{" "}
+              {sprayResult.hourly.suitableHours}/
+              {sprayResult.hourly.hoursChecked}{" "}
+              {lang === "ur" ? "گھنٹے موزوں" : "hours suitable"} (Asia/Karachi)
+            </p>
+          )}
+          {sprayResult?.dayGuide && !sprayResult.dayGuide.error && (
+            <p>
+              {lang === "ur"
+                ? sprayResult.dayGuide.reasonUr
+                : sprayResult.dayGuide.reasonEn}
+            </p>
+          )}
+          {sprayResult?.dayGuide?.error && (
+            <div className="warn-box">{sprayResult.dayGuide.error}</div>
+          )}
+        </section>
+
+        <section className="card">
+          <h2>{t.seasonalTitle}</h2>
+          <label htmlFor="season-month">
+            {lang === "ur" ? "مہینہ" : "Month"}
+          </label>
+          <select
+            id="season-month"
+            value={seasonMonth}
+            onChange={(e) => setSeasonMonth(Number(e.target.value))}
+          >
+            {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
+              <option key={m} value={m}>
+                {lang === "ur"
+                  ? ["جنوری", "فروری", "مارچ", "اپریل", "مئی", "جون", "جولائی", "اگست", "ستمبر", "اکتوبر", "نومبر", "دسمبر"][m - 1]
+                  : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][m - 1]}
+              </option>
+            ))}
+          </select>
+          {seasonal?.entries.map((e, i) => (
+            <div key={i} style={{ marginTop: 10 }}>
+              <strong>
+                {lang === "ur" ? e.pestOrDisease : e.pestOrDisease}
+              </strong>
+              <p>{lang === "ur" ? e.watchUr : e.watchEn}</p>
+              {e.generalGuidance && (
+                <p className="muted">
+                  {lang === "ur"
+                    ? "عام رہنمائی — معائنے کی یاد دہانی، پیش گوئی نہیں۔"
+                    : "General guidance — a reminder to scout, not a forecast."}
+                </p>
+              )}
+            </div>
+          ))}
+          <p className="muted">
+            {lang === "ur"
+              ? "ماخذ: پنجاب فصلوں کا کیلنڈر (نومبر 2026)۔"
+              : "Source: Punjab cropping calendar (Nov 2026)."}
+          </p>
+        </section>
+
+        <section className="card">
           <h2>{t.methodsTitle}</h2>
           <ul className="cites">
             <li>
@@ -991,6 +1761,46 @@ export default function Home() {
               {lang === "ur"
                 ? "اگر کوئی ذریعہ دستیاب نہ ہو تو جواب صاف کہتا ہے — اندازہ نہیں لگاتا۔ ایجنٹ صرف پڑھتا ہے، کچھ بدلتا نہیں۔"
                 : "If a source is unavailable, the answer says so — it never guesses. The agent is read-only."}
+            </li>
+            <li>
+              <strong>
+                {lang === "ur" ? "تصویر سے شناخت (AI مدد)" : "Photo diagnosis (AI-assisted)"}:
+              </strong>{" "}
+              {lang === "ur"
+                ? "Gemini تصویر دیکھ کر بیماری بتاتا ہے — اعتماد صرف کم / درمیانہ / زیادہ، کبھی فیصد نہیں۔ یہ لیب ٹیسٹ نہیں ہے؛ اسپرے سے پہلے زرعی دفتر سے تصدیق کریں۔ بغیر API کی کے یہ بند رہتا ہے اور صاف بتا دیا جاتا ہے۔"
+                : "Gemini identifies the disease from a photo — confidence is only low / medium / high, never a percentage. This is NOT a lab test; confirm with the agriculture office before spraying. Without an API key it stays off and says so plainly."}
+            </li>
+            <li>
+              <strong>
+                {lang === "ur" ? "علامات چیکر" : "Symptom checker"}:
+              </strong>{" "}
+              {lang === "ur"
+                ? "22 تصدیق شدہ بیماریوں کی فہرست (پنجاب محکمہ زراعت / WRI، RRI، CCRI) — ترتیب صرف مماثل علامات کی تعداد سے ہے۔"
+                : "22 verified diseases (Punjab Agriculture Department / WRI, RRI, CCRI) — ranked by matched symptom count only."}
+            </li>
+            <li>
+              <strong>
+                {lang === "ur" ? "زہریلی دوا کی حفاظت" : "Pesticide safety"}:
+              </strong>{" "}
+              {lang === "ur"
+                ? "DPP/PARC ممنوعہ فہرست (2013/2018) — ضلعی زرعی دفتر سے تصدیق کریں۔ WHO درجہ بندی (Ia/Ib سرخ، II پیلا، III نیلا، U سبز)۔ کٹائی سے پہلے کا وقفہ اور دوبارہ داخلہ ہر دوا کے لیے 'لیبل کے مطابق' — کوئی نمبر تصدیق نہیں ہوا۔ وائرس (کپاس/ٹماٹر پتہ مڑنا) کا کوئی کیمیائی علاج نہیں — دوا صرف سفید مکھی کو کنٹرول کرتی ہے۔"
+                : "DPP/PARC banned list (2013/2018) — confirm with your district agriculture office. WHO classes (Ia/Ib red, II yellow, III blue, U green). PHI and re-entry are 'per label' for every pesticide — no number was verified. Viruses (cotton/tomato leaf curl) have no chemical cure — the pesticide controls only the whitefly vector."}
+            </li>
+            <li>
+              <strong>
+                {lang === "ur" ? "کھاد" : "Fertilizer"}:
+              </strong>{" "}
+              {lang === "ur"
+                ? "پنجاب محکمہ زراعت کی خوراکیں (نومبر 2026)؛ بوریاں 50 کلو کی، کل پوری بوریوں میں۔ ٹماٹر کی کوئی تصدیق شدہ خوراک نہیں — ایپ اندازہ نہیں لگاتی۔"
+                : "Punjab Agriculture Department doses (Nov 2026); 50 kg bags, totals in whole bags. No verified tomato dose — the app never guesses one."}
+            </li>
+            <li>
+              <strong>
+                {lang === "ur" ? "اسپرے کا وقت" : "Spray window"}:
+              </strong>{" "}
+              {lang === "ur"
+                ? "Open-Meteo گھنٹہ وار پیش گوئی سے اگلے 48 گھنٹے — موزوں گھنٹہ: بارش کا امکان 20٪ سے کم، ہوا 15 کلومیٹر/گھنٹہ سے کم، بارش 0.1 ملی میٹر سے کم۔"
+                : "Next 48 hours from the Open-Meteo hourly forecast — suitable hour: rain chance < 20%, wind < 15 km/h, rain < 0.1 mm."}
             </li>
             <li>
               <strong>
